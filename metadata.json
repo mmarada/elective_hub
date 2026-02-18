@@ -1,0 +1,5 @@
+{
+  "name": "Foster MBA Electives Dashboard",
+  "description": "A centralized dashboard for Spring 2026 MBA electives, combining schedule data, syllabus information, and student reviews.",
+  "requestFramePermissions": []
+}
