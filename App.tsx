@@ -1,18 +1,26 @@
+
 import React, { useState, useMemo } from 'react';
 import { courses, reviews } from './data';
 import CourseCard from './components/CourseCard';
-import { Search, Filter, CalendarDays, GraduationCap, Mail } from 'lucide-react';
+import { Search, Filter, CalendarDays, GraduationCap, Mail, Layers } from 'lucide-react';
 import { DayFilter } from './types';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [dayFilter, setDayFilter] = useState<DayFilter>('All');
   const [instructorFilter, setInstructorFilter] = useState('All');
+  const [quarterFilter, setQuarterFilter] = useState('Spring 2026');
 
   // Derive unique instructors for filter
   const instructors = useMemo(() => {
     const list = Array.from(new Set(courses.map(c => c.instructor)));
     return ['All', ...list.sort()];
+  }, []);
+
+  // Derive unique quarters for filter
+  const quarters = useMemo(() => {
+    const list = Array.from(new Set(courses.map(c => c.quarter)));
+    return ['All', ...list.sort().reverse()]; // Reverse to likely put Spring 2026 first if formatted conveniently, or just sort
   }, []);
 
   // Filter Logic
@@ -24,13 +32,16 @@ function App() {
 
     const matchesDay = 
       dayFilter === 'All' ? true :
-      dayFilter === 'Evening' ? (parseInt(course.time.split('-')[0].split(':')[0]) >= 5 || course.time.includes('6:00')) : // Rough heuristic for evening
+      dayFilter === 'Evening' ? (['5:', '6:', '7:'].some(prefix => course.time.startsWith(prefix))) : 
       course.days.includes(dayFilter.split('/')[0]); // "Mon" matches "Mon/Wed"
 
     const matchesInstructor = 
       instructorFilter === 'All' ? true : course.instructor === instructorFilter;
 
-    return matchesSearch && matchesDay && matchesInstructor;
+    const matchesQuarter = 
+      quarterFilter === 'All' ? true : course.quarter === quarterFilter;
+
+    return matchesSearch && matchesDay && matchesInstructor && matchesQuarter;
   });
 
   return (
@@ -44,7 +55,7 @@ function App() {
                 F
               </div>
               <div>
-                <h1 className="text-lg font-bold text-gray-900 leading-none">Spring 2026 Electives</h1>
+                <h1 className="text-lg font-bold text-gray-900 leading-none">MBA Electives</h1>
                 <span className="text-xs text-purple-700 font-medium">Foster School of Business</span>
               </div>
             </div>
@@ -68,7 +79,7 @@ function App() {
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Course Dashboard</h2>
           <p className="mt-2 text-gray-600 max-w-2xl">
-            Explore available electives for the upcoming quarter. View schedules, syllabus details, and read peer reviews to make informed decisions.
+            Explore available electives across quarters. View schedules, download syllabi, and read peer reviews to make informed decisions.
           </p>
         </div>
 
@@ -92,6 +103,28 @@ function App() {
 
             {/* Filters */}
             <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+              
+              {/* Quarter Filter */}
+              <div className="relative group min-w-[140px]">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Layers className="h-4 w-4 text-gray-500" />
+                </div>
+                <select
+                  value={quarterFilter}
+                  onChange={(e) => setQuarterFilter(e.target.value)}
+                  className="block w-full pl-9 pr-8 py-2.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 appearance-none cursor-pointer hover:bg-gray-50 font-medium text-purple-700"
+                >
+                  <option value="All">All Quarters</option>
+                  {quarters.filter(q => q !== 'All').map(q => (
+                    <option key={q} value={q}>{q}</option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                  <Filter className="h-3 w-3 text-gray-400" />
+                </div>
+              </div>
+
+              {/* Day Filter */}
               <div className="relative group min-w-[140px]">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <CalendarDays className="h-4 w-4 text-gray-500" />
@@ -105,12 +138,14 @@ function App() {
                   <option value="Mon/Wed">Mon/Wed</option>
                   <option value="Tue/Thu">Tue/Thu</option>
                   <option value="Evening">Evening (5pm+)</option>
+                  <option value="Friday">Friday</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                   <Filter className="h-3 w-3 text-gray-400" />
                 </div>
               </div>
 
+              {/* Instructor Filter */}
               <div className="relative group min-w-[160px]">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <GraduationCap className="h-4 w-4 text-gray-500" />
@@ -145,7 +180,7 @@ function App() {
           {filteredCourses.length > 0 ? (
             filteredCourses.map((course) => (
               <CourseCard 
-                key={`${course.code}-${course.sln}`} 
+                key={`${course.quarter}-${course.sln}`} 
                 course={course} 
                 reviews={reviews} 
               />
@@ -158,7 +193,12 @@ function App() {
               <h3 className="mt-2 text-sm font-medium text-gray-900">No courses found</h3>
               <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
               <button 
-                onClick={() => {setSearchQuery(''); setDayFilter('All'); setInstructorFilter('All');}}
+                onClick={() => {
+                  setSearchQuery(''); 
+                  setDayFilter('All'); 
+                  setInstructorFilter('All');
+                  setQuarterFilter('All');
+                }}
                 className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
               >
                 Clear all filters

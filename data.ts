@@ -1,9 +1,11 @@
 
 import { Course, Review } from './types';
+import { COURSE_LINKS } from './links';
 
 // Extracted from Spring 2026 Schedule PDF and mapped with Syllabus OCR data
+// Additional courses added from Catalog (Page 1-8)
 export const courses: Course[] = [
-  // Monday/Wednesday
+  // --- Spring 2026 Scheduled Courses ---
   { 
     sln: "10151", 
     code: "ACCTG 579", 
@@ -14,9 +16,10 @@ export const courses: Course[] = [
     room: "PCAR 293", 
     days: "Mon/Wed", 
     time: "10:30-12:20",
-    syllabusLink: "/syllabi/ACCTG_579_Sustainability.pdf",
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["10151"],
     syllabus: {
-      description: "Traditional financial accounting is not designed to measure the societal impact of a company’s operations. Sustainability reporting has evolved to fill this void, allowing for a more comprehensive lens of both performance and risk assessment. This course is designed to provide a critical analysis of current practices in business sustainability reporting.",
+      description: "Traditional financial accounting is not designed to measure the societal impact of a company’s operations. Sustainability reporting has evolved to fill this void, allowing for a more comprehensive lens of both performance and risk assessment.",
       learningObjectives: [
         "Gain an appreciation for the frictions related to both measurement and disclosure regulation",
         "Map environmental and social impacts to commonly disclosed metrics within ESG reports",
@@ -39,21 +42,20 @@ export const courses: Course[] = [
     room: "PCAR 393", 
     days: "Mon/Wed", 
     time: "10:30-12:20",
-    syllabusLink: "/syllabi/MKTG_511_B2B.pdf",
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["17122"],
     syllabus: {
-      description: "Addresses how to understand, create, and deliver value when selling goods and services to other businesses, governments, and institutional customers. Students learn how business markets differ from consumer markets, how to assess opportunities, and how to manage key marketing execution elements.",
+      description: "Addresses how to understand, create, and deliver value when selling goods and services to other businesses, governments, and institutional customers.",
       learningObjectives: [
         "Assess opportunities in business markets",
         "Develop marketing strategy for B2B contexts",
-        "Manage key marketing execution elements",
-        "Make data-driven marketing decisions"
+        "Manage key marketing execution elements"
       ],
       grading: [
         { item: "Class Participation", weight: "30%" },
         { item: "Group Assignment", weight: "30%" },
         { item: "Quizzes & Exercises", weight: "40%" }
-      ],
-      books: ["Coursepack from Harvard Business School Publishing"]
+      ]
     }
   },
   { 
@@ -66,15 +68,15 @@ export const courses: Course[] = [
     room: "PCAR 295", 
     days: "Mon/Wed", 
     time: "1:30-3:20", 
+    quarter: "Spring 2026",
     info: "MBA-MS, INTL",
-    syllabusLink: "/syllabi/BECON_526_Global_Economy.pdf",
+    syllabusLink: COURSE_LINKS["10847"],
     syllabus: {
-      description: "Explores how purely domestic operations differ from global ones. Topics range from the internationalization process to the operation of complex global operations, as well as the business models of emerging conglomerates of the digital economy.",
+      description: "Explores how purely domestic operations differ from global ones. Topics range from the internationalization process to the operation of complex global operations.",
       learningObjectives: [
         "Understand, identify, assess and project global trends",
         "Determine how trends give rise to business opportunities or threats",
-        "Develop strategies to exploit opportunities or mitigate threats",
-        "Improve ability to write clear, well-structured communications"
+        "Develop strategies to exploit opportunities or mitigate threats"
       ],
       grading: [
         { item: "Individual Case Write-ups", weight: "20%" },
@@ -94,15 +96,15 @@ export const courses: Course[] = [
     room: "PCAR 293", 
     days: "Mon/Wed", 
     time: "1:30-3:20", 
+    quarter: "Spring 2026",
     info: "2nd Half",
-    syllabusLink: "/syllabi/MGMT_547_Negotiations.pdf",
+    syllabusLink: COURSE_LINKS["17050"],
     syllabus: {
-      description: "Acquire a fundamental understanding of negotiations and the skills to plan for and analyze your own negotiations. Concepts will be building blocks from which you can systematically understand and evaluate a negotiation process.",
+      description: "Acquire a fundamental understanding of negotiations and the skills to plan for and analyze your own negotiations.",
       learningObjectives: [
         "Develop confidence in the negotiation process",
         "Analyze behavior and motives of negotiators",
-        "Evaluate costs and benefits of alternative actions",
-        "Manage the negotiating process"
+        "Evaluate costs and benefits of alternative actions"
       ],
       grading: [
         { item: "Engagement/Participation", weight: "15%" },
@@ -123,15 +125,15 @@ export const courses: Course[] = [
     room: "PCAR 297", 
     days: "Mon/Wed", 
     time: "1:30-3:20", 
+    quarter: "Spring 2026",
     info: "PRAC",
-    syllabusLink: "/syllabi/MKTG_535_Analytics_Lab.pdf",
+    syllabusLink: COURSE_LINKS["17124"],
     syllabus: {
-      description: "Experiential class with a strong focus on the application of analytics and market measurement in a real-world, client-facing, consulting environment. Students work in teams using analysis to answer current and important business questions for sponsoring companies.",
+      description: "Experiential class with a strong focus on the application of analytics and market measurement in a real-world, client-facing, consulting environment.",
       learningObjectives: [
         "Apply analytics in a real-world, team-based environment",
         "Manage team dynamics and client relationships",
-        "Execute a project from analysis to recommendation",
-        "Present findings to client leadership"
+        "Execute a project from analysis to recommendation"
       ],
       grading: [
         { item: "Professor Eval of Final Project", weight: "40%" },
@@ -152,15 +154,15 @@ export const courses: Course[] = [
     room: "PCAR 391", 
     days: "Mon/Wed", 
     time: "3:30-5:20", 
+    quarter: "Spring 2026",
     info: "1st Half, INTL",
-    syllabusLink: "/syllabi/MGMT_509_Global_Strategy.pdf",
+    syllabusLink: COURSE_LINKS["17044"],
     syllabus: {
-      description: "Develop a better understanding of the global environment in which businesses compete. Covers globalization trends, government-multinational firm relations, country risk, entry modes, and cross-border collaborative challenges.",
+      description: "Develop a better understanding of the global environment in which businesses compete. Covers globalization trends, government-multinational firm relations, country risk, entry modes.",
       learningObjectives: [
         "Manage key multinational firm relationships",
         "Evaluate institutional voids of countries",
-        "Assess export vs. licensing vs. FDI decisions",
-        "Anticipate challenges of cross-border collaboration"
+        "Assess export vs. licensing vs. FDI decisions"
       ],
       grading: [
         { item: "Class Participation", weight: "30%" },
@@ -178,15 +180,15 @@ export const courses: Course[] = [
     instructor: "Biswas", 
     room: "PCAR 392", 
     days: "Mon/Wed", 
-    time: "3:30-5:20",
-    syllabusLink: "/syllabi/MKTG_568_Pricing.pdf",
+    time: "3:30-5:20", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["17132"],
     syllabus: {
-      description: "Blends marketing analytic frameworks, marketing strategy & microeconomic theory, and data to formulate actionable pricing strategies. Students will learn how to coordinate pricing decisions with the rest of the marketing value proposition.",
+      description: "Blends marketing analytic frameworks, marketing strategy & microeconomic theory, and data to formulate actionable pricing strategies.",
       learningObjectives: [
         "Formulate pricing strategy using data and methods",
         "Understand microeconomic foundations of pricing",
-        "Design and execute pricing strategies across contexts (B2B, B2C)",
-        "Work with different forms of data and analytic methods"
+        "Design and execute pricing strategies across contexts"
       ],
       grading: [
         { item: "Final Project", weight: "35%" },
@@ -197,8 +199,6 @@ export const courses: Course[] = [
       ]
     }
   },
-
-  // Tuesday/Thursday
   { 
     sln: "14536", 
     code: "FIN 579", 
@@ -209,15 +209,15 @@ export const courses: Course[] = [
     room: "PCAR 393", 
     days: "Tue/Thu", 
     time: "10:30-12:20", 
+    quarter: "Spring 2026",
     info: "1st Half, INTL",
-    syllabusLink: "/syllabi/FIN_579_International_Finance.pdf",
+    syllabusLink: COURSE_LINKS["14536"],
     syllabus: {
       description: "Focuses on the financial management of the multinational corporation. We will cover the foreign exchange market, currency risk management, and international investment decisions.",
       learningObjectives: [
         "Understand foreign exchange markets and parity conditions",
         "Manage currency risk using derivatives",
-        "Evaluate international capital budgeting projects",
-        "Assess political risk in international finance"
+        "Evaluate international capital budgeting projects"
       ],
       grading: [
         { item: "Case Studies", weight: "40%" },
@@ -235,15 +235,15 @@ export const courses: Course[] = [
     instructor: "TBD", 
     room: "PCAR 395", 
     days: "Tue/Thu", 
-    time: "10:30-12:20",
-    syllabusLink: "/syllabi/MKTG_560_Consumer_Insights.pdf",
+    time: "10:30-12:20", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["17128"],
     syllabus: {
-      description: "Covers the art and science of market research. Study qualitative and quantitative research strategies that generate new knowledge about consumers behavior, attitudes, and culture.",
+      description: "Covers the art and science of market research. Study qualitative and quantitative research strategies that generate new knowledge about consumers behavior.",
       learningObjectives: [
         "Learn qualitative and quantitative research strategies",
-        "Understand theory and practice of gaining insights from experiments and data",
-        "Explore implications of AI for accelerating market research",
-        "Apply research to high impact marketing problems"
+        "Understand theory and practice of gaining insights",
+        "Explore implications of AI for accelerating market research"
       ],
       grading: [
         { item: "Class Participation", weight: "25%" },
@@ -261,23 +261,22 @@ export const courses: Course[] = [
     instructor: "Van Winkle", 
     room: "PCAR 392", 
     days: "Tue/Thu", 
-    time: "1:30-3:20",
-    syllabusLink: "/syllabi/ACCTG_510_Financial_Statement_Analysis.pdf",
+    time: "1:30-3:20", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["10140"],
     syllabus: {
-      description: "Gain knowledge and skills to analyze, interpret, and use publicly available financial information. Focus is on analysis of public companies performed by external parties, with a focus on equity valuation.",
+      description: "Gain knowledge and skills to analyze, interpret, and use publicly available financial information. Focus is on analysis of public companies performed by external parties.",
       learningObjectives: [
         "Analyze financial information in annual and quarterly reports",
         "Apply fundamental valuation techniques",
-        "Work in teams to communicate insights from analysis",
-        "Research accounting footnotes and disclosures"
+        "Work in teams to communicate insights from analysis"
       ],
       grading: [
         { item: "Valuation Report (Team)", weight: "28%" },
         { item: "Midterm Exam", weight: "28%" },
         { item: "Pre-class Case Submissions", weight: "24%" },
         { item: "Professionalism", weight: "20%" }
-      ],
-      books: ["Equity Valuation & Analysis by Lundholm & Sloan (Recommended)"]
+      ]
     }
   },
   { 
@@ -289,15 +288,15 @@ export const courses: Course[] = [
     instructor: "Young", 
     room: "PCAR 393", 
     days: "Tue/Thu", 
-    time: "1:30-3:20",
-    syllabusLink: "/syllabi/ENTRE_FIN_557_Entrepreneurial_Finance.pdf",
+    time: "1:30-3:20", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["14065"],
     syllabus: {
-      description: "Advanced finance course providing understanding of financial issues facing entrepreneurs. Covers 'small business survival skills' like assessing performance, financial planning, and valuation, as well as venture capital financing.",
+      description: "Advanced finance course providing understanding of financial issues facing entrepreneurs. Covers 'small business survival skills' like assessing performance, financial planning, and valuation.",
       learningObjectives: [
         "Assess financial performance and planning for startups",
         "Analyze terms of venture capital agreements",
-        "Evaluate risks and opportunities in entrepreneurial finance",
-        "Understand structure of VC organizations"
+        "Evaluate risks and opportunities in entrepreneurial finance"
       ],
       grading: [
         { item: "Deliverables (Case write-ups)", weight: "75%" },
@@ -314,15 +313,15 @@ export const courses: Course[] = [
     instructor: "Bruner", 
     room: "PCAR 393", 
     days: "Tue/Thu", 
-    time: "1:30-3:20",
-    syllabusLink: "/syllabi/FIN_579_Climate_Risk.pdf",
+    time: "1:30-3:20", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["21090"],
     syllabus: {
       description: "Examines how climate change risks affect financial markets and how financial innovation can address these challenges. Topics include carbon pricing, green bonds, and ESG investing.",
       learningObjectives: [
         "Understand physical and transition risks of climate change",
         "Evaluate financial instruments designed for climate mitigation",
-        "Analyze corporate climate disclosures",
-        "Assess portfolio exposure to climate risk"
+        "Analyze corporate climate disclosures"
       ],
       grading: [
         { item: "Group Project", weight: "40%" },
@@ -340,10 +339,11 @@ export const courses: Course[] = [
     instructor: "Wee", 
     room: "PCAR 290", 
     days: "Tue/Thu", 
-    time: "3:30-5:20",
-    syllabusLink: "/syllabi/MGMT_545_High_Performance.pdf",
+    time: "3:30-5:20", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["17048"],
     syllabus: {
-      description: "Leadership is both an art and a science. Builds on authentic leadership with a focus on self-awareness, relationship-building, and balance. Covers evidence-based leadership styles like transactional, servant, charismatic, and empowering.",
+      description: "Leadership is both an art and a science. Builds on authentic leadership with a focus on self-awareness, relationship-building, and balance.",
       learningObjectives: [
         "Deepen focus on self-awareness and relationship-building",
         "Acquire skills in transactional, charismatic, servant, and empowering leadership",
@@ -357,8 +357,6 @@ export const courses: Course[] = [
       ]
     }
   },
-
-  // Alternate/Evening
   { 
     sln: "15172", 
     code: "IBUS 500", 
@@ -369,15 +367,15 @@ export const courses: Course[] = [
     room: "PCAR 394", 
     days: "Mon", 
     time: "5:00-5:50", 
+    quarter: "Spring 2026",
     info: "INTL",
-    syllabusLink: "/syllabi/IBUS_500_Global_Business_Forum.pdf",
+    syllabusLink: COURSE_LINKS["15172"],
     syllabus: {
-      description: "MBA class and discussion forum where professionals from around the world share insights into doing business globally. Themes include 'Doing Business with Central and South America' and 'The Global Sports Arena'.",
+      description: "MBA class and discussion forum where professionals from around the world share insights into doing business globally.",
       learningObjectives: [
         "Engage with issues arising from doing business globally",
         "Build knowledge of how organizations work differently in different regions",
-        "Define leadership qualities required for global business",
-        "Meet and build relationships with global business professionals"
+        "Define leadership qualities required for global business"
       ],
       grading: [
         { item: "Session Contributions", weight: "18 pts" },
@@ -397,15 +395,15 @@ export const courses: Course[] = [
     instructor: "Collingsworth/Roe", 
     room: "PCAR 392", 
     days: "Tue", 
-    time: "3:30-6:50",
-    syllabusLink: "/syllabi/MGMT_550_CEO_Board.pdf",
+    time: "3:30-6:50", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["17053"],
     syllabus: {
-      description: "Insiders' view of corporate governance. Explores how boards operate and contribute to a company's competitiveness, profitability, and long-term sustainability. Analyzes impact of boards on success/failure of major companies.",
+      description: "Insiders' view of corporate governance. Explores how boards operate and contribute to a company's competitiveness, profitability, and long-term sustainability.",
       learningObjectives: [
         "Understand various board types and models",
         "Distinguish governance best practices for different stage companies",
-        "Analyze board roles in strategy, risk, ethics, and succession",
-        "Understand role of CEO in engaging with boards"
+        "Analyze board roles in strategy, risk, ethics, and succession"
       ],
       grading: [
         { item: "Quizzes", weight: "30%" },
@@ -425,15 +423,15 @@ export const courses: Course[] = [
     room: "PCAR 393", 
     days: "Wed", 
     time: "4:00-5:50", 
+    quarter: "Spring 2026",
     info: "2nd Half",
-    syllabusLink: "/syllabi/FIN_579_Endowment.pdf",
+    syllabusLink: COURSE_LINKS["14534"],
     syllabus: {
-      description: "Focuses on endowment management and specific challenges institutional fund managers face, including security selection, portfolio construction, manager choice, and alternative asset class investing.",
+      description: "Focuses on endowment management and specific challenges institutional fund managers face, including security selection, portfolio construction, manager choice.",
       learningObjectives: [
         "Consider drivers of portfolio performance",
         "Understand and evaluate market opportunities of traditional and alternative assets",
-        "Evaluate key differences between institutional investment models",
-        "Gain exposure to quantitative tools"
+        "Evaluate key differences between institutional investment models"
       ],
       grading: [
         { item: "Case Study", weight: "60%" },
@@ -450,15 +448,15 @@ export const courses: Course[] = [
     instructor: "Ratner", 
     room: "EXED 110", 
     days: "Wed/Fri", 
-    time: "4:00-5:50",
-    syllabusLink: "/syllabi/ENTRE_579_Biomedical.pdf",
+    time: "4:00-5:50", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["14074"],
     syllabus: {
       description: "Overview of the challenges necessary for any young business in healthcare or life sciences. Covers regulation, development process, and economics of healthcare.",
       learningObjectives: [
         "Understand system of regulation of health technologies",
         "Learn process of development for health technologies",
-        "Understand economics of healthcare",
-        "Identify domain experts and learn from them"
+        "Understand economics of healthcare"
       ],
       grading: [
         { item: "Weekly Quizzes", weight: "40%" },
@@ -468,8 +466,6 @@ export const courses: Course[] = [
       ]
     }
   },
-  
-  // Evening (6:00-9:30)
   { 
     sln: "14072", 
     code: "ENTRE 579", 
@@ -480,10 +476,11 @@ export const courses: Course[] = [
     room: "PCAR 391", 
     days: "Mon", 
     time: "6:00-9:30", 
+    quarter: "Spring 2026",
     info: "2nd Half",
-    syllabusLink: "/syllabi/ENTRE_579_Pitch.pdf",
+    syllabusLink: COURSE_LINKS["14072"],
     syllabus: {
-      description: "About entrepreneurship and the role that verbal communication, influence, and persuasion play in shaping success. Emphasizes the power of what you say and how effectively you say it.",
+      description: "About entrepreneurship and the role that verbal communication, influence, and persuasion play in shaping success.",
       learningObjectives: [
         "Create persuasive pitch for yourself and venture",
         "Differentiate yourself and business from competition",
@@ -505,15 +502,15 @@ export const courses: Course[] = [
     room: "PCAR 391", 
     days: "Mon", 
     time: "6:00-9:30", 
+    quarter: "Spring 2026",
     info: "1st Half, INTL",
-    syllabusLink: "/syllabi/MGMT_509_Global_Strategy.pdf",
+    syllabusLink: COURSE_LINKS["17046"],
     syllabus: {
-      description: "Develop a better understanding of the global environment in which businesses compete. Covers globalization trends, government-multinational firm relations, country risk, entry modes, and cross-border collaborative challenges.",
+      description: "Develop a better understanding of the global environment in which businesses compete. Covers globalization trends, government-multinational firm relations.",
       learningObjectives: [
         "Manage key multinational firm relationships",
         "Evaluate institutional voids of countries",
-        "Assess export vs. licensing vs. FDI decisions",
-        "Anticipate challenges of cross-border collaboration"
+        "Assess export vs. licensing vs. FDI decisions"
       ],
       grading: [
         { item: "Class Participation", weight: "30%" },
@@ -531,15 +528,15 @@ export const courses: Course[] = [
     instructor: "Schlosser", 
     room: "PCAR 393", 
     days: "Mon", 
-    time: "6:00-9:30",
-    syllabusLink: "/syllabi/MKTG_556_Advertising.pdf",
+    time: "6:00-9:30", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["17126"],
     syllabus: {
-      description: "Provides students with an understanding of the advertising and promotion process, including the development of an integrated marketing communications plan. Topics include setting objectives, creative strategy, media planning, and measuring effectiveness.",
+      description: "Provides students with an understanding of the advertising and promotion process, including the development of an integrated marketing communications plan.",
       learningObjectives: [
         "Develop integrated marketing communications plans",
         "Evaluate creative strategies and executions",
-        "Understand media planning and buying",
-        "Measure advertising effectiveness"
+        "Understand media planning and buying"
       ],
       grading: [
         { item: "Group Project", weight: "40%" },
@@ -558,15 +555,15 @@ export const courses: Course[] = [
     instructor: "Leon", 
     room: "PCAR 290", 
     days: "Tue", 
-    time: "6:00-9:30",
-    syllabusLink: "/syllabi/BECON_546_Game_Theory.pdf",
+    time: "6:00-9:30", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["10849"],
     syllabus: {
-      description: "Surveys and develops concepts and techniques of game theory and information economics and their applications to issues of business strategy, including advertising, pricing, negotiation, and entry deterrence.",
+      description: "Surveys and develops concepts and techniques of game theory and information economics and their applications to issues of business strategy.",
       learningObjectives: [
         "Identify strategic environments and model them as games",
         "Analyze economic situations using game theory techniques",
-        "Devise strategic moves to exploit situations",
-        "Apply game theory to defend or critique business decisions"
+        "Devise strategic moves to exploit situations"
       ],
       grading: [
         { item: "Team Project", weight: "350 pts" },
@@ -585,15 +582,15 @@ export const courses: Course[] = [
     instructor: "Young", 
     room: "PCAR 391", 
     days: "Tue", 
-    time: "6:00-9:30",
-    syllabusLink: "/syllabi/ENTRE_FIN_557_Entrepreneurial_Finance.pdf",
+    time: "6:00-9:30", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["14067"],
     syllabus: {
-      description: "Advanced finance course providing understanding of financial issues facing entrepreneurs. Covers 'small business survival skills' like assessing performance, financial planning, and valuation, as well as venture capital financing.",
+      description: "Advanced finance course providing understanding of financial issues facing entrepreneurs. Covers 'small business survival skills' like assessing performance, financial planning, and valuation.",
       learningObjectives: [
         "Assess financial performance and planning for startups",
         "Analyze terms of venture capital agreements",
-        "Evaluate risks and opportunities in entrepreneurial finance",
-        "Understand structure of VC organizations"
+        "Evaluate risks and opportunities in entrepreneurial finance"
       ],
       grading: [
         { item: "Deliverables (Case write-ups)", weight: "75%" },
@@ -610,15 +607,15 @@ export const courses: Course[] = [
     instructor: "Kremens", 
     room: "PCAR 291", 
     days: "Wed", 
-    time: "6:00-9:30",
-    syllabusLink: "/syllabi/FIN_566_Alternative_Investments.pdf",
+    time: "6:00-9:30", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["14531"],
     syllabus: {
-      description: "What strategies do investors pursue to make returns in Alternative Investments? Devoted around half to Hedge Fund strategies (Quantitative Factor, Distressed, Merger Arb) and half to Private Equity (LBOs, valuation).",
+      description: "What strategies do investors pursue to make returns in Alternative Investments? Devoted around half to Hedge Fund strategies (Quantitative Factor, Distressed, Merger Arb) and half to Private Equity.",
       learningObjectives: [
         "Understand risks/returns of hedge fund strategies",
         "Understand structure and process of PE funds",
-        "Evaluate PE investment opportunities",
-        "Distinguish between PE and VC investment environments"
+        "Evaluate PE investment opportunities"
       ],
       grading: [
         { item: "Midterm Exam", weight: "25%" },
@@ -638,15 +635,15 @@ export const courses: Course[] = [
     room: "PCAR 293", 
     days: "Wed", 
     time: "6:00-9:30", 
+    quarter: "Spring 2026",
     info: "1st Half",
-    syllabusLink: "/syllabi/MGMT_575_Women_Leadership.pdf",
+    syllabusLink: COURSE_LINKS["17055"],
     syllabus: {
-      description: "Combines dynamic sessions with accomplished women making a difference with exploration of issues related to female leadership. Students assess their own strengths to explore how they may make a difference.",
+      description: "Combines dynamic sessions with accomplished women making a difference with exploration of issues related to female leadership. Students assess their own strengths.",
       learningObjectives: [
         "Draw insights from exceptional female role models",
         "Build frameworks for female leadership",
-        "Identify personal sources of power and resilience",
-        "Create a personal vision of 'the top'"
+        "Identify personal sources of power and resilience"
       ],
       grading: [
         { item: "Difference Plan + Mentor Circle Summary", weight: "450 pts" },
@@ -668,8 +665,9 @@ export const courses: Course[] = [
     room: "PCAR 391", 
     days: "Wed", 
     time: "6:00-9:30", 
+    quarter: "Spring 2026",
     info: "April 8 - May 6",
-    syllabusLink: "/syllabi/MKTG_579_Culture_Sales.pdf",
+    syllabusLink: COURSE_LINKS["17135"],
     syllabus: {
       description: "Focuses on key elements required in building a best-in-class go-to-market strategy and sales organization. Covers how company and sales culture are tightly tied to effective strategy.",
       learningObjectives: [
@@ -695,15 +693,15 @@ export const courses: Course[] = [
     instructor: "Ye", 
     room: "PCAR 295", 
     days: "Wed", 
-    time: "6:00-9:30",
-    syllabusLink: "/syllabi/MKTG_565_LLMs.pdf",
+    time: "6:00-9:30", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["21305"],
     syllabus: {
       description: "Learn to apply Large Language Models to business problems. Covers prompt engineering, fine-tuning, and building applications using LLMs.",
       learningObjectives: [
         "Understand capabilities and limitations of LLMs",
         "Apply prompt engineering techniques",
-        "Develop business applications using LLM APIs",
-        "Evaluate ethical considerations of AI"
+        "Develop business applications using LLM APIs"
       ],
       grading: [
         { item: "Final Project", weight: "40%" },
@@ -722,8 +720,9 @@ export const courses: Course[] = [
     room: "PCAR 391", 
     days: "Thu", 
     time: "6:00-9:30", 
+    quarter: "Spring 2026",
     info: "1st Half",
-    syllabusLink: "/syllabi/ENTRE_509_Foundations.pdf",
+    syllabusLink: COURSE_LINKS["14057"],
     syllabus: {
       description: "Develops awareness of range, scope, and complexity of issues involved in startups. Gain insight into how entrepreneurs conceive, adapt, and execute strategies.",
       learningObjectives: [
@@ -749,15 +748,15 @@ export const courses: Course[] = [
     instructor: "TBD", 
     room: "PCAR 290", 
     days: "Thu", 
-    time: "6:00-9:30",
-    syllabusLink: "/syllabi/ENTRE_541_Tech_Commercialization.pdf",
+    time: "6:00-9:30", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["14061"],
     syllabus: {
-      description: "Work with UW scientists and engineers to identify potential applications, markets, and business models for breakthrough discoveries. Focuses on building skills in commercial analysis.",
+      description: "Work with UW scientists and engineers to identify potential applications, markets, and business models for breakthrough discoveries.",
       learningObjectives: [
         "Understand commercialization process of university tech",
         "Conduct primary and secondary research for hypotheses",
-        "Create feasible business models",
-        "Develop project milestones and presentation skills"
+        "Create feasible business models"
       ],
       grading: [
         { item: "Team Updates & Deliverables", weight: "500 pts" },
@@ -776,10 +775,11 @@ export const courses: Course[] = [
     instructor: "Hrdlicka", 
     room: "PCAR 294", 
     days: "Thu", 
-    time: "6:00-9:30",
-    syllabusLink: "/syllabi/FIN_560_Investments.pdf",
+    time: "6:00-9:30", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["14529"],
     syllabus: {
-      description: "Builds on core finance to answer fundamental questions: Where do security prices come from? How do we measure mispricing? How do we measure skill? Covers market efficiency, bond investing, portfolio theory, CAPM, hedge funds.",
+      description: "Builds on core finance to answer fundamental questions: Where do security prices come from? How do we measure mispricing? How do we measure skill?",
       learningObjectives: [
         "Manage own investments and those of a company",
         "Active money management skills",
@@ -803,15 +803,15 @@ export const courses: Course[] = [
     room: "PCAR 391", 
     days: "Thu", 
     time: "6:00-9:30", 
+    quarter: "Spring 2026",
     info: "2nd Half",
-    syllabusLink: "/syllabi/MGMT_579_Innovation.pdf",
+    syllabusLink: COURSE_LINKS["17057"],
     syllabus: {
-      description: "Equips students with frameworks for managing technology-intensive businesses. Emphasis on innovation interacting with competition, market evolution, and capabilities. Includes design thinking principles.",
+      description: "Equips students with frameworks for managing technology-intensive businesses. Emphasis on innovation interacting with competition, market evolution, and capabilities.",
       learningObjectives: [
         "Evaluate how firms choose innovation opportunities",
         "Identify best practices in new product development",
-        "Assess trade-offs in IP protection",
-        "Formulate collaboration strategies"
+        "Assess trade-offs in IP protection"
       ],
       grading: [
         { item: "Individual Case Analysis", weight: "40%" },
@@ -829,15 +829,15 @@ export const courses: Course[] = [
     instructor: "Brusse", 
     room: "PCAR 291", 
     days: "Mon", 
-    time: "6:00-9:30",
-    syllabusLink: "/syllabi/ENTRE_579_Angel_Investing.pdf",
+    time: "6:00-9:30", 
+    quarter: "Spring 2026",
+    syllabusLink: COURSE_LINKS["00000"],
     syllabus: {
-      description: "Experiential learning opportunity for understanding early stage funding. Hands-on learning on angel investing and raising capital. Students participate with an outside angel investment group.",
+      description: "Experiential learning opportunity for understanding early stage funding. Hands-on learning on angel investing and raising capital.",
       learningObjectives: [
         "Sourcing investment opportunities",
         "Intense market and industry research",
-        "Financial metrics for start-ups",
-        "Negotiation and deal terms"
+        "Financial metrics for start-ups"
       ],
       grading: [
         { item: "Team Investment Report", weight: "30%" },
@@ -848,6 +848,306 @@ export const courses: Course[] = [
       books: ["Venture Deals by Feld and Mendelson"]
     }
   },
+
+  // --- Winter 2026 (Mock Data) ---
+  {
+    sln: "11001",
+    code: "ACCTG 501",
+    section: "A/B",
+    title: "Managerial Accounting",
+    credits: 4,
+    instructor: "Burgstahler",
+    room: "PCAR 390",
+    days: "Mon/Wed", 
+    time: "1:30-3:20",
+    quarter: "Winter 2026",
+    syllabus: {
+        description: "Focuses on the use of accounting information for internal decision making. Topics include cost behavior, cost-volume-profit analysis, and budgeting.",
+        learningObjectives: ["Understand cost behavior", "Prepare budgets", "Analyze variances"],
+        grading: [{item: "Exam 1", weight: "30%"}, {item: "Exam 2", weight: "30%"}, {item: "Cases", weight: "40%"}]
+    }
+  },
+  {
+    sln: "11002",
+    code: "FIN 553",
+    section: "A/B",
+    title: "Banking and Financial Institutions",
+    credits: 4,
+    instructor: "Brogaard",
+    room: "PCAR 392",
+    days: "Tue/Thu",
+    time: "10:30-12:20",
+    quarter: "Winter 2026",
+    syllabusLink: COURSE_LINKS["11002"],
+    syllabus: {
+        description: "Analyzes the role of banks and other financial institutions in the global economy. Covers risk management, regulation, and fintech disruption.",
+        learningObjectives: ["Analyze bank financial statements", "Understand regulatory frameworks", "Evaluate fintech business models"],
+        grading: [{item: "Midterm", weight: "30%"}, {item: "Final", weight: "40%"}, {item: "Project", weight: "30%"}]
+    }
+  },
+  {
+    sln: "11003",
+    code: "MKTG 552",
+    section: "A/B",
+    title: "Consumer Marketing Strategies",
+    credits: 4,
+    instructor: "Forehand",
+    room: "PCAR 290",
+    days: "Mon/Wed",
+    time: "3:30-5:20",
+    quarter: "Winter 2026",
+    syllabusLink: COURSE_LINKS["11003"],
+    syllabus: {
+        description: "Advanced consumer behavior concepts applied to marketing strategy. Focus on psychological principles underlying consumer choices.",
+        learningObjectives: ["Apply psychological theories to marketing", "Design effective campaigns", "Analyze consumer decision journeys"],
+        grading: [{item: "Participation", weight: "20%"}, {item: "Cases", weight: "40%"}, {item: "Project", weight: "40%"}]
+    }
+  },
+  {
+    sln: "11004",
+    code: "OPMGT 550",
+    section: "A/B",
+    title: "Project Management",
+    credits: 4,
+    instructor: "Klastorin",
+    room: "PCAR 391",
+    days: "Tue/Thu",
+    time: "6:00-9:30",
+    quarter: "Winter 2026",
+    syllabusLink: COURSE_LINKS["11004"],
+    syllabus: {
+        description: "Management of complex projects. Topics include scheduling, resource allocation, risk management, and project control.",
+        learningObjectives: ["Build project schedules", "Allocate resources efficiently", "Manage project risks"],
+        grading: [{item: "Exam", weight: "40%"}, {item: "Simulation", weight: "30%"}, {item: "Homework", weight: "30%"}]
+    }
+  },
+  {
+    sln: "11005",
+    code: "MGMT 504",
+    section: "A/B",
+    title: "Ethical Leadership",
+    credits: 4,
+    instructor: "Bigley",
+    room: "PCAR 292",
+    days: "Fri",
+    time: "8:30-12:20",
+    quarter: "Winter 2026",
+    syllabus: {
+        description: "Examination of ethical issues faced by business leaders. Frameworks for ethical decision making and creating ethical cultures.",
+        learningObjectives: ["Recognize ethical dilemmas", "Apply ethical frameworks", "Foster ethical organizational culture"],
+        grading: [{item: "Participation", weight: "30%"}, {item: "Reflection Papers", weight: "30%"}, {item: "Final Paper", weight: "40%"}]
+    }
+  },
+  {
+    sln: "11006",
+    code: "IBUS 545",
+    section: "A",
+    title: "Cases in Sustainability",
+    credits: 2,
+    instructor: "Seslen",
+    room: "PCAR 294",
+    days: "Mon",
+    time: "5:00-6:50",
+    quarter: "Winter 2026",
+    syllabus: {
+        description: "Case-based exploration of sustainable business practices in a global context.",
+        learningObjectives: ["Analyze sustainability challenges", "Evaluate corporate responses", "Develop sustainable strategies"],
+        grading: [{item: "Participation", weight: "50%"}, {item: "Case Analysis", weight: "50%"}]
+    }
+  },
+  {
+    sln: "11007",
+    code: "ENTRE 510",
+    section: "A/B",
+    title: "Entrepreneurial Strategy",
+    credits: 4,
+    instructor: "Ott",
+    room: "PCAR 393",
+    days: "Wed",
+    time: "6:00-9:30",
+    quarter: "Winter 2026",
+    syllabusLink: COURSE_LINKS["11007"],
+    syllabus: {
+        description: "Strategic issues facing new ventures. Competitive positioning, business model design, and scaling.",
+        learningObjectives: ["Develop competitive strategy", "Design scalable business models", "Navigate growth challenges"],
+        grading: [{item: "Cases", weight: "40%"}, {item: "Project", weight: "40%"}, {item: "Participation", weight: "20%"}]
+    }
+  },
+
+  // --- Autumn 2025 (Mock Data) ---
+  {
+    sln: "12001",
+    code: "MKTG 501",
+    section: "A",
+    title: "Marketing Management",
+    credits: 4,
+    instructor: "Rutz",
+    room: "PCAR 291",
+    days: "Mon/Wed",
+    time: "1:30-3:20",
+    quarter: "Autumn 2025",
+    syllabus: {
+        description: "Introduction to marketing strategy and tactics. Segmentation, targeting, positioning, and the 4Ps.",
+        learningObjectives: ["Conduct market analysis", "Develop marketing plans", "Manage marketing mix"],
+        grading: [{item: "Exam", weight: "30%"}, {item: "Markstrat Simulation", weight: "40%"}, {item: "Participation", weight: "30%"}]
+    }
+  },
+  {
+    sln: "12002",
+    code: "FIN 502",
+    section: "A",
+    title: "Business Finance",
+    credits: 4,
+    instructor: "Koski",
+    room: "PCAR 390",
+    days: "Tue/Thu",
+    time: "10:30-12:20",
+    quarter: "Autumn 2025",
+    syllabus: {
+        description: "Fundamentals of corporate finance. Time value of money, valuation, capital budgeting, and risk/return.",
+        learningObjectives: ["Value financial assets", "Make investment decisions", "Assess risk"],
+        grading: [{item: "Midterm", weight: "30%"}, {item: "Final", weight: "45%"}, {item: "Homework", weight: "25%"}]
+    }
+  },
+  {
+    sln: "12003",
+    code: "MGMT 500",
+    section: "A",
+    title: "Management and Leadership",
+    credits: 4,
+    instructor: "Avolio",
+    room: "PCAR 292",
+    days: "Tue/Thu",
+    time: "1:30-3:20",
+    quarter: "Autumn 2025",
+    syllabus: {
+        description: "Core management concepts. Organizational behavior, leadership styles, and team dynamics.",
+        learningObjectives: ["Lead effective teams", "Motivate employees", "Manage organizational change"],
+        grading: [{item: "Papers", weight: "40%"}, {item: "Group Project", weight: "30%"}, {item: "Participation", weight: "30%"}]
+    }
+  },
+  {
+    sln: "12004",
+    code: "QMETH 500",
+    section: "A",
+    title: "Statistical Data Analysis",
+    credits: 4,
+    instructor: "Zhou",
+    room: "PCAR 394",
+    days: "Mon/Wed",
+    time: "8:30-10:20",
+    quarter: "Autumn 2025",
+    syllabus: {
+        description: "Statistical methods for business decision making. Hypothesis testing, regression analysis, and data visualization.",
+        learningObjectives: ["Analyze data using statistics", "Interpret regression results", "Communicate data insights"],
+        grading: [{item: "Quizzes", weight: "30%"}, {item: "Final Exam", weight: "40%"}, {item: "Homework", weight: "30%"}]
+    }
+  },
+  {
+    sln: "12005",
+    code: "ENTRE 509",
+    section: "A",
+    title: "Foundations of Entrepreneurship",
+    credits: 2,
+    instructor: "Hallen",
+    room: "PCAR 391",
+    days: "Thu",
+    time: "6:00-9:30",
+    quarter: "Autumn 2025",
+    syllabusLink: COURSE_LINKS["12005"],
+    syllabus: {
+        description: "Introduction to the entrepreneurial process. Opportunity recognition and feasibility analysis.",
+        learningObjectives: ["Identify opportunities", "Assess feasibility", "Pitch ideas"],
+        grading: [{item: "Project", weight: "60%"}, {item: "Participation", weight: "40%"}]
+    }
+  },
+  {
+    sln: "12006",
+    code: "OPMGT 502",
+    section: "A",
+    title: "Introduction to Operations Management",
+    credits: 3,
+    instructor: "Hill",
+    room: "PCAR 392",
+    days: "Tue/Thu",
+    time: "3:30-5:00",
+    quarter: "Autumn 2025",
+    syllabus: {
+        description: "Process analysis and improvement. Supply chain management basics and quality control.",
+        learningObjectives: ["Analyze process flows", "Manage inventory", "Improve quality"],
+        grading: [{item: "Exams", weight: "50%"}, {item: "Cases", weight: "30%"}, {item: "Homework", weight: "20%"}]
+    }
+  },
+
+  // --- Catalog Courses (No specific Quarter/Time) ---
+  { sln: "N/A", code: "ACCTG 579", section: "N/A", title: "Alphanomics: Active Investing in Equity Markets", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ACCTG_579_Alphanomics },
+  { sln: "N/A", code: "ACCTG 579", section: "N/A", title: "Race, Culture, and Business Immersion", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ACCTG_579_Race },
+  { sln: "N/A", code: "ACCTG 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ACCTG_600 },
+  { sln: "N/A", code: "BA 560", section: "N/A", title: "Cooperative Education in Business", credits: 1, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog" },
+  { sln: "N/A", code: "BA 578", section: "N/A", title: "Impact Investing Strategic Management Practicum", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BA_578 },
+  { sln: "N/A", code: "BCMU 509", section: "N/A", title: "Finding Your Voice", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BCMU_509 },
+  { sln: "N/A", code: "BCMU 579", section: "N/A", title: "TED Talks", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BCMU_579_TED },
+  { sln: "N/A", code: "BCMU 579", section: "N/A", title: "Interrupting Privilege", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BCMU_579_Interrupting },
+  { sln: "N/A", code: "BCMU 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BCMU_600 },
+  { sln: "N/A", code: "BECON 560", section: "N/A", title: "Foster Research Partners", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BECON_560 },
+  { sln: "N/A", code: "BECON 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BECON_600 },
+  { sln: "N/A", code: "ENTRE 522", section: "N/A", title: "Innovation Strategy", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_522 },
+  { sln: "N/A", code: "ENTRE 532", section: "N/A", title: "Software Entrepreneurship", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_532 },
+  { sln: "N/A", code: "ENTRE 540", section: "N/A", title: "Business Plan Practicum", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_540 },
+  { sln: "N/A", code: "ENTRE 542", section: "N/A", title: "Venture Capital Investment Competition", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_542 },
+  { sln: "N/A", code: "ENTRE 543", section: "N/A", title: "Environmental Innovation Practicum", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_543 },
+  { sln: "N/A", code: "ENTRE 545", section: "N/A", title: "Health Innovation Practicum", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_545 },
+  { sln: "N/A", code: "ENTRE 555", section: "N/A", title: "Entrepreneurial Marketing", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_555 },
+  { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Creative Destruction Lab", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_CDL }, 
+  { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Grand Challenges for Entrepreneurs", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Grand }, 
+  { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Influencer Marketing: Profiting from Social Media", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Influencer },
+  { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Intrapreneurship: Developing New Products", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Intrapreneurship },
+  { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Women in Entrepreneurial Leadership", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Women },
+  { sln: "N/A", code: "ENTRE 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_600 },
+  { sln: "N/A", code: "FIN 530", section: "N/A", title: "Financial Management of Banks", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_530 }, 
+  { sln: "N/A", code: "FIN 551", section: "N/A", title: "Problems in Business Finance", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_551 },
+  { sln: "N/A", code: "FIN 558", section: "N/A", title: "Mergers and Acquisitions", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_558 },
+  { sln: "N/A", code: "FIN 561", section: "N/A", title: "Financial Futures & Options Markets", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_561 },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "AI in Business", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_AI }, 
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "Asian Capital Markets", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Asian },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "Behavioral Finance", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Behavioral },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "International Business Compliance", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Compliance },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "Introduction to Real Estate Finance & Investment", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Real_Estate },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "Machine Learning in Business", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_ML },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "The Power of Access: Impact Lending", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Power },
+  { sln: "N/A", code: "FIN 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_600 },
+  { sln: "N/A", code: "IS 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.IS_600 },
+  { sln: "N/A", code: "IBUS 570", section: "N/A", title: "International Study Program", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.IBUS_570 },
+  { sln: "N/A", code: "IBUS 579", section: "N/A", title: "Applied Global Consulting Projects", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.IBUS_579 },
+  { sln: "N/A", code: "IBUS 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.IBUS_600 },
+  { sln: "N/A", code: "MGMT 548", section: "N/A", title: "Deal-Making in High Velocity Ventures", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_548 },
+  { sln: "N/A", code: "MGMT 555", section: "N/A", title: "Nonprofit Board Fellows Leadership Seminar", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_555 },
+  { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Corporate Equity", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Equity }, 
+  { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Corporate Growth Strategies", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Growth },
+  { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Developing Strategies for Social Impact", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Social },
+  { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Human Sustainability", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Human },
+  { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Leading Across Cultures", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Cultures },
+  { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Mindful Decision Making", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Mindful },
+  { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Perspectives on ESG in Business", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_ESG },
+  { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Power and Status Dynamics in the Workplace", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Power },
+  { sln: "N/A", code: "MGMT 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_600 },
+  { sln: "N/A", code: "MKTG 554", section: "N/A", title: "Strategic Product Management", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_554 },
+  { sln: "N/A", code: "MKTG 562", section: "N/A", title: "Customer Analytics", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_562 },
+  { sln: "N/A", code: "MKTG 564", section: "N/A", title: "Analytics for Marketing Decisions", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_564 },
+  { sln: "N/A", code: "MKTG 566", section: "N/A", title: "Digital Marketing Analytics", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_566 },
+  { sln: "N/A", code: "MKTG 579", section: "N/A", title: "Case Study Development Lab: Strategic Storytelling", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_Storytelling }, 
+  { sln: "N/A", code: "MKTG 579", section: "N/A", title: "Consultative Selling", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_Consultative },
+  { sln: "N/A", code: "MKTG 579", section: "N/A", title: "Go-to-Market Strategy", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_GoToMarket },
+  { sln: "N/A", code: "MKTG 579", section: "N/A", title: "Pricing Principles and Strategies", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_Pricing },
+  { sln: "N/A", code: "MKTG 579", section: "N/A", title: "The Sustainable Company", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_Sustainable },
+  { sln: "N/A", code: "MKTG 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_600 },
+  { sln: "N/A", code: "OPMGT 530", section: "N/A", title: "Risk: Measurement, Management, and Leadership", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_530 },
+  { sln: "N/A", code: "OPMGT 540", section: "N/A", title: "Sustainable Design of Global Supply Chains", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_540 },
+  { sln: "N/A", code: "OPMGT 560", section: "N/A", title: "Supply Chain Management", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_560 },
+  { sln: "N/A", code: "OPMGT 565", section: "N/A", title: "Business Analytics: Tools for Big Data", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_565 },
+  { sln: "N/A", code: "OPMGT 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_600 },
+  { sln: "N/A", code: "QMETH 551", section: "N/A", title: "Modeling with Spreadsheets", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.QMETH_551 },
+  { sln: "N/A", code: "QMETH 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.QMETH_600 },
 ];
 
 // Selected reviews extracted from OCR. 

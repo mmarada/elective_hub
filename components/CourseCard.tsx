@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Course, Review } from '../types';
-import { ChevronDown, ChevronUp, Clock, MapPin, Calendar, BookOpen, GraduationCap, Mail, Info, FileText, CheckCircle, Book } from 'lucide-react';
+import { ChevronDown, ChevronUp, Clock, MapPin, Calendar, BookOpen, GraduationCap, Mail, Info, FileText, CheckCircle, Book, Star, Layers, FileImage, FileInput } from 'lucide-react';
 import ReviewList from './ReviewList';
 import { courseDetails } from '../data';
 
@@ -35,10 +35,28 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews }) => {
     return true;
   });
 
+  const hasReviews = relevantReviews.length > 0;
   const description = course.syllabus?.description || courseDetails[course.code] || "No detailed description available. Please contact the instructor for the latest syllabus.";
 
+  // Prepare email content
+  const emailSubject = `Registration Inquiry: ${course.code} - ${course.title} (SLN ${course.sln})`;
+  const emailBody = `Hi,\n\nI am interested in registering for the following course:\n\nCourse: ${course.code} - ${course.title}\nSLN: ${course.sln}\nQuarter: ${course.quarter}\n\nCould you please provide the registration code required to sign up for this course?\n\nThanks,\n[Your Name]`;
+  const mailtoLink = `mailto:mbaregis@uw.edu?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+  // Determine link type and icon
+  const getLinkInfo = (link?: string) => {
+    if (!link) return { text: "Syllabus N/A", icon: FileText };
+    const lowerLink = link.toLowerCase();
+    if (lowerLink.includes('flyer')) return { text: "View Flyer", icon: FileImage };
+    if (lowerLink.includes('application')) return { text: "View Application", icon: FileInput };
+    return { text: "View Syllabus PDF", icon: FileText };
+  };
+
+  const linkInfo = getLinkInfo(course.syllabusLink);
+  const LinkIcon = linkInfo.icon;
+
   return (
-    <div className={`bg-white rounded-xl border transition-all duration-300 ${isExpanded ? 'border-purple-200 shadow-lg ring-1 ring-purple-100' : 'border-gray-200 hover:border-purple-200 hover:shadow-md'}`}>
+    <div className={`bg-white rounded-xl border transition-all duration-300 ${isExpanded ? 'border-purple-200 shadow-lg ring-1 ring-purple-100' : hasReviews ? 'border-amber-200 hover:border-purple-200 hover:shadow-md' : 'border-gray-200 hover:border-purple-200 hover:shadow-md'}`}>
       {/* Card Header / Summary */}
       <div 
         className="p-5 cursor-pointer"
@@ -46,16 +64,28 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews }) => {
       >
         <div className="flex justify-between items-start gap-4">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
                 {course.code}
               </span>
-              <span className="text-xs text-gray-500 font-mono bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
-                SLN: {course.sln}
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                <Layers className="w-3 h-3 mr-1" />
+                {course.quarter}
               </span>
+              {course.sln !== "N/A" && (
+                <span className="text-xs text-gray-500 font-mono bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
+                    SLN: {course.sln}
+                </span>
+              )}
               {course.info && (
                 <span className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
                   {course.info}
+                </span>
+              )}
+              {hasReviews && (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 animate-in fade-in duration-500">
+                  <Star className="w-3 h-3 mr-1 fill-amber-400 text-amber-400" />
+                  {relevantReviews.length} Review{relevantReviews.length > 1 ? 's' : ''}
                 </span>
               )}
             </div>
@@ -155,22 +185,28 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews }) => {
                 )}
                 
                 <div className="pt-4 flex flex-col sm:flex-row gap-3">
-                  <a 
-                    href={course.syllabusLink ? course.syllabusLink : `https://www.google.com/search?q=UW+Foster+${course.code}+${course.instructor}+syllabus`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center px-4 py-2 text-sm font-medium text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg transition-colors group"
-                  >
-                    {course.syllabusLink ? "View Syllabus PDF" : "Search Syllabus / Flyer"}
-                    {course.syllabusLink ? (
-                      <FileText className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
-                    ) : (
-                      <Info className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
-                    )}
-                  </a>
+                  {course.syllabusLink ? (
+                    <a 
+                      href={course.syllabusLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center px-4 py-2 text-sm font-medium text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg transition-colors group"
+                    >
+                      {linkInfo.text}
+                      <LinkIcon className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
+                    </a>
+                  ) : (
+                    <button 
+                      disabled
+                      className="flex-1 flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-400 bg-gray-50 border border-gray-200 rounded-lg cursor-not-allowed"
+                    >
+                      {linkInfo.text}
+                      <LinkIcon className="w-4 h-4 ml-2" />
+                    </button>
+                  )}
                   
                   <a 
-                    href={`mailto:mbaregis@uw.edu?subject=Registration Inquiry: ${course.code} - ${course.title} (SLN ${course.sln})`}
+                    href={mailtoLink}
                     className="flex-1 flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-purple-900 hover:bg-purple-800 rounded-lg shadow-sm transition-all hover:shadow-purple-900/20 group"
                   >
                     Email Registration

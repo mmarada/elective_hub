@@ -31,6 +31,7 @@ export interface Course {
   room: string;
   days: string;
   time: string;
+  quarter: string; // e.g., "Spring 2026"
   info?: string; // e.g., "MBA-MS", "INTL"
   prerequisites?: string;
   syllabusLink?: string; // Placeholder link
