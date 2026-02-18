@@ -8,12 +8,30 @@ function getCatalogLink(code: string): string | undefined {
   const parts = code.split(' ');
   if (parts.length < 2) return undefined;
   
-  // Handle cross-listed courses like "ENTRE/FIN" -> "entre"
-  const deptPart = parts[0].split('/')[0]; 
-  const dept = deptPart.toLowerCase();
+  // Handle cross-listed courses like "ENTRE/FIN" -> "entre" (or handle both if needed, but primary is usually sufficient)
+  const deptPart = parts[0].split('/')[0].toUpperCase(); 
   const num = parts[1];
   
-  return `http://www.washington.edu/students/crscat/${dept}.html#${dept}${num}`;
+  // Map department codes to UW Catalog HTML page names
+  const mapping: Record<string, string> = {
+    'ACCTG': 'acctg',
+    'BA': 'ba',
+    'BCMU': 'buscomm',
+    'BECON': 'busecon',
+    'ENTRE': 'entre',
+    'FIN': 'finance',
+    'IBUS': 'intlbus',
+    'MGMT': 'mgmt',
+    'MKTG': 'mktg',
+    'OPMGT': 'opmgmt',
+    'QMETH': 'qmeth',
+    'IS': 'is' 
+  };
+
+  const page = mapping[deptPart] || deptPart.toLowerCase();
+  const anchor = deptPart.toLowerCase(); // Anchor usually matches the prefix (e.g., #bcmu509)
+  
+  return `http://www.washington.edu/students/crscat/${page}.html#${anchor}${num}`;
 }
 
 const rawCourses: Course[] = [
