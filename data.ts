@@ -235,7 +235,7 @@ export const courses: Course[] = [
     instructor: "TBD", 
     room: "PCAR 395", 
     days: "Tue/Thu", 
-    time: "10:30-12:20", 
+    time: "10:30-12:20",
     quarter: "Spring 2026",
     syllabusLink: COURSE_LINKS["17128"],
     syllabus: {
@@ -261,7 +261,7 @@ export const courses: Course[] = [
     instructor: "Van Winkle", 
     room: "PCAR 392", 
     days: "Tue/Thu", 
-    time: "1:30-3:20", 
+    time: "1:30-3:20",
     quarter: "Spring 2026",
     syllabusLink: COURSE_LINKS["10140"],
     syllabus: {
@@ -425,7 +425,7 @@ export const courses: Course[] = [
     time: "4:00-5:50", 
     quarter: "Spring 2026",
     info: "2nd Half",
-    syllabusLink: COURSE_LINKS["14534"],
+    syllabusLink: COURSE_LINKS["FIN_579_Institutional"],
     syllabus: {
       description: "Focuses on endowment management and specific challenges institutional fund managers face, including security selection, portfolio construction, manager choice.",
       learningObjectives: [
@@ -667,7 +667,7 @@ export const courses: Course[] = [
     time: "6:00-9:30", 
     quarter: "Spring 2026",
     info: "April 8 - May 6",
-    syllabusLink: COURSE_LINKS["17135"],
+    syllabusLink: COURSE_LINKS["MKTG_579_GoToMarket"],
     syllabus: {
       description: "Focuses on key elements required in building a best-in-class go-to-market strategy and sales organization. Covers how company and sales culture are tightly tied to effective strategy.",
       learningObjectives: [
@@ -849,303 +849,116 @@ export const courses: Course[] = [
     }
   },
 
-  // --- Winter 2026 (Mock Data) ---
-  {
-    sln: "11001",
-    code: "ACCTG 501",
-    section: "A/B",
-    title: "Managerial Accounting",
-    credits: 4,
-    instructor: "Burgstahler",
-    room: "PCAR 390",
-    days: "Mon/Wed", 
-    time: "1:30-3:20",
-    quarter: "Winter 2026",
-    syllabus: {
-        description: "Focuses on the use of accounting information for internal decision making. Topics include cost behavior, cost-volume-profit analysis, and budgeting.",
-        learningObjectives: ["Understand cost behavior", "Prepare budgets", "Analyze variances"],
-        grading: [{item: "Exam 1", weight: "30%"}, {item: "Exam 2", weight: "30%"}, {item: "Cases", weight: "40%"}]
-    }
-  },
-  {
-    sln: "11002",
-    code: "FIN 553",
-    section: "A/B",
-    title: "Banking and Financial Institutions",
-    credits: 4,
-    instructor: "Brogaard",
-    room: "PCAR 392",
-    days: "Tue/Thu",
-    time: "10:30-12:20",
-    quarter: "Winter 2026",
-    syllabusLink: COURSE_LINKS["11002"],
-    syllabus: {
-        description: "Analyzes the role of banks and other financial institutions in the global economy. Covers risk management, regulation, and fintech disruption.",
-        learningObjectives: ["Analyze bank financial statements", "Understand regulatory frameworks", "Evaluate fintech business models"],
-        grading: [{item: "Midterm", weight: "30%"}, {item: "Final", weight: "40%"}, {item: "Project", weight: "30%"}]
-    }
-  },
-  {
-    sln: "11003",
-    code: "MKTG 552",
-    section: "A/B",
-    title: "Consumer Marketing Strategies",
-    credits: 4,
-    instructor: "Forehand",
-    room: "PCAR 290",
-    days: "Mon/Wed",
-    time: "3:30-5:20",
-    quarter: "Winter 2026",
-    syllabusLink: COURSE_LINKS["11003"],
-    syllabus: {
-        description: "Advanced consumer behavior concepts applied to marketing strategy. Focus on psychological principles underlying consumer choices.",
-        learningObjectives: ["Apply psychological theories to marketing", "Design effective campaigns", "Analyze consumer decision journeys"],
-        grading: [{item: "Participation", weight: "20%"}, {item: "Cases", weight: "40%"}, {item: "Project", weight: "40%"}]
-    }
-  },
-  {
-    sln: "11004",
-    code: "OPMGT 550",
-    section: "A/B",
-    title: "Project Management",
-    credits: 4,
-    instructor: "Klastorin",
-    room: "PCAR 391",
-    days: "Tue/Thu",
-    time: "6:00-9:30",
-    quarter: "Winter 2026",
-    syllabusLink: COURSE_LINKS["11004"],
-    syllabus: {
-        description: "Management of complex projects. Topics include scheduling, resource allocation, risk management, and project control.",
-        learningObjectives: ["Build project schedules", "Allocate resources efficiently", "Manage project risks"],
-        grading: [{item: "Exam", weight: "40%"}, {item: "Simulation", weight: "30%"}, {item: "Homework", weight: "30%"}]
-    }
-  },
-  {
-    sln: "11005",
-    code: "MGMT 504",
-    section: "A/B",
-    title: "Ethical Leadership",
-    credits: 4,
-    instructor: "Bigley",
-    room: "PCAR 292",
-    days: "Fri",
-    time: "8:30-12:20",
-    quarter: "Winter 2026",
-    syllabus: {
-        description: "Examination of ethical issues faced by business leaders. Frameworks for ethical decision making and creating ethical cultures.",
-        learningObjectives: ["Recognize ethical dilemmas", "Apply ethical frameworks", "Foster ethical organizational culture"],
-        grading: [{item: "Participation", weight: "30%"}, {item: "Reflection Papers", weight: "30%"}, {item: "Final Paper", weight: "40%"}]
-    }
-  },
-  {
-    sln: "11006",
-    code: "IBUS 545",
-    section: "A",
-    title: "Cases in Sustainability",
-    credits: 2,
-    instructor: "Seslen",
-    room: "PCAR 294",
-    days: "Mon",
-    time: "5:00-6:50",
-    quarter: "Winter 2026",
-    syllabus: {
-        description: "Case-based exploration of sustainable business practices in a global context.",
-        learningObjectives: ["Analyze sustainability challenges", "Evaluate corporate responses", "Develop sustainable strategies"],
-        grading: [{item: "Participation", weight: "50%"}, {item: "Case Analysis", weight: "50%"}]
-    }
-  },
-  {
-    sln: "11007",
-    code: "ENTRE 510",
-    section: "A/B",
-    title: "Entrepreneurial Strategy",
-    credits: 4,
-    instructor: "Ott",
-    room: "PCAR 393",
-    days: "Wed",
-    time: "6:00-9:30",
-    quarter: "Winter 2026",
-    syllabusLink: COURSE_LINKS["11007"],
-    syllabus: {
-        description: "Strategic issues facing new ventures. Competitive positioning, business model design, and scaling.",
-        learningObjectives: ["Develop competitive strategy", "Design scalable business models", "Navigate growth challenges"],
-        grading: [{item: "Cases", weight: "40%"}, {item: "Project", weight: "40%"}, {item: "Participation", weight: "20%"}]
-    }
-  },
-
-  // --- Autumn 2025 (Mock Data) ---
-  {
-    sln: "12001",
-    code: "MKTG 501",
-    section: "A",
-    title: "Marketing Management",
-    credits: 4,
-    instructor: "Rutz",
-    room: "PCAR 291",
-    days: "Mon/Wed",
-    time: "1:30-3:20",
-    quarter: "Autumn 2025",
-    syllabus: {
-        description: "Introduction to marketing strategy and tactics. Segmentation, targeting, positioning, and the 4Ps.",
-        learningObjectives: ["Conduct market analysis", "Develop marketing plans", "Manage marketing mix"],
-        grading: [{item: "Exam", weight: "30%"}, {item: "Markstrat Simulation", weight: "40%"}, {item: "Participation", weight: "30%"}]
-    }
-  },
-  {
-    sln: "12002",
-    code: "FIN 502",
-    section: "A",
-    title: "Business Finance",
-    credits: 4,
-    instructor: "Koski",
-    room: "PCAR 390",
-    days: "Tue/Thu",
-    time: "10:30-12:20",
-    quarter: "Autumn 2025",
-    syllabus: {
-        description: "Fundamentals of corporate finance. Time value of money, valuation, capital budgeting, and risk/return.",
-        learningObjectives: ["Value financial assets", "Make investment decisions", "Assess risk"],
-        grading: [{item: "Midterm", weight: "30%"}, {item: "Final", weight: "45%"}, {item: "Homework", weight: "25%"}]
-    }
-  },
-  {
-    sln: "12003",
-    code: "MGMT 500",
-    section: "A",
-    title: "Management and Leadership",
-    credits: 4,
-    instructor: "Avolio",
-    room: "PCAR 292",
-    days: "Tue/Thu",
-    time: "1:30-3:20",
-    quarter: "Autumn 2025",
-    syllabus: {
-        description: "Core management concepts. Organizational behavior, leadership styles, and team dynamics.",
-        learningObjectives: ["Lead effective teams", "Motivate employees", "Manage organizational change"],
-        grading: [{item: "Papers", weight: "40%"}, {item: "Group Project", weight: "30%"}, {item: "Participation", weight: "30%"}]
-    }
-  },
-  {
-    sln: "12004",
-    code: "QMETH 500",
-    section: "A",
-    title: "Statistical Data Analysis",
-    credits: 4,
-    instructor: "Zhou",
-    room: "PCAR 394",
-    days: "Mon/Wed",
-    time: "8:30-10:20",
-    quarter: "Autumn 2025",
-    syllabus: {
-        description: "Statistical methods for business decision making. Hypothesis testing, regression analysis, and data visualization.",
-        learningObjectives: ["Analyze data using statistics", "Interpret regression results", "Communicate data insights"],
-        grading: [{item: "Quizzes", weight: "30%"}, {item: "Final Exam", weight: "40%"}, {item: "Homework", weight: "30%"}]
-    }
-  },
-  {
-    sln: "12005",
-    code: "ENTRE 509",
-    section: "A",
-    title: "Foundations of Entrepreneurship",
-    credits: 2,
-    instructor: "Hallen",
-    room: "PCAR 391",
-    days: "Thu",
-    time: "6:00-9:30",
-    quarter: "Autumn 2025",
-    syllabusLink: COURSE_LINKS["12005"],
-    syllabus: {
-        description: "Introduction to the entrepreneurial process. Opportunity recognition and feasibility analysis.",
-        learningObjectives: ["Identify opportunities", "Assess feasibility", "Pitch ideas"],
-        grading: [{item: "Project", weight: "60%"}, {item: "Participation", weight: "40%"}]
-    }
-  },
-  {
-    sln: "12006",
-    code: "OPMGT 502",
-    section: "A",
-    title: "Introduction to Operations Management",
-    credits: 3,
-    instructor: "Hill",
-    room: "PCAR 392",
-    days: "Tue/Thu",
-    time: "3:30-5:00",
-    quarter: "Autumn 2025",
-    syllabus: {
-        description: "Process analysis and improvement. Supply chain management basics and quality control.",
-        learningObjectives: ["Analyze process flows", "Manage inventory", "Improve quality"],
-        grading: [{item: "Exams", weight: "50%"}, {item: "Cases", weight: "30%"}, {item: "Homework", weight: "20%"}]
-    }
-  },
-
   // --- Catalog Courses (No specific Quarter/Time) ---
+  { sln: "N/A", code: "ACCTG 510", section: "N/A", title: "Introduction to Financial Statement Analysis", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ACCTG_510 },
   { sln: "N/A", code: "ACCTG 579", section: "N/A", title: "Alphanomics: Active Investing in Equity Markets", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ACCTG_579_Alphanomics },
+  { sln: "N/A", code: "ACCTG 579", section: "N/A", title: "Business Sustainability Reporting & Analysis", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ACCTG_579_Sustainability },
   { sln: "N/A", code: "ACCTG 579", section: "N/A", title: "Race, Culture, and Business Immersion", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ACCTG_579_Race },
   { sln: "N/A", code: "ACCTG 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ACCTG_600 },
-  { sln: "N/A", code: "BA 560", section: "N/A", title: "Cooperative Education in Business", credits: 1, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog" },
+  
+  { sln: "N/A", code: "BA 560", section: "N/A", title: "Cooperative Education in Business", credits: 1, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BA_560 },
   { sln: "N/A", code: "BA 578", section: "N/A", title: "Impact Investing Strategic Management Practicum", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BA_578 },
+  
   { sln: "N/A", code: "BCMU 509", section: "N/A", title: "Finding Your Voice", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BCMU_509 },
   { sln: "N/A", code: "BCMU 579", section: "N/A", title: "TED Talks", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BCMU_579_TED },
   { sln: "N/A", code: "BCMU 579", section: "N/A", title: "Interrupting Privilege", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BCMU_579_Interrupting },
   { sln: "N/A", code: "BCMU 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BCMU_600 },
+  
+  { sln: "N/A", code: "BECON 526", section: "N/A", title: "Competing in the Global Economy", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BECON_526 },
+  { sln: "N/A", code: "BECON 546", section: "N/A", title: "Game Theory", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BECON_546 },
   { sln: "N/A", code: "BECON 560", section: "N/A", title: "Foster Research Partners", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BECON_560 },
   { sln: "N/A", code: "BECON 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.BECON_600 },
+  
+  { sln: "N/A", code: "ENTRE 509", section: "N/A", title: "Foundations of Entrepreneurship", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_509 },
+  { sln: "N/A", code: "ENTRE 510", section: "N/A", title: "Entrepreneurial Strategy", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_510 },
   { sln: "N/A", code: "ENTRE 522", section: "N/A", title: "Innovation Strategy", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_522 },
   { sln: "N/A", code: "ENTRE 532", section: "N/A", title: "Software Entrepreneurship", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_532 },
   { sln: "N/A", code: "ENTRE 540", section: "N/A", title: "Business Plan Practicum", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_540 },
+  { sln: "N/A", code: "ENTRE 541", section: "N/A", title: "Technology Commercialization", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_541 },
   { sln: "N/A", code: "ENTRE 542", section: "N/A", title: "Venture Capital Investment Competition", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_542 },
   { sln: "N/A", code: "ENTRE 543", section: "N/A", title: "Environmental Innovation Practicum", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_543 },
   { sln: "N/A", code: "ENTRE 545", section: "N/A", title: "Health Innovation Practicum", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_545 },
   { sln: "N/A", code: "ENTRE 555", section: "N/A", title: "Entrepreneurial Marketing", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_555 },
+  { sln: "N/A", code: "ENTRE 557", section: "N/A", title: "Entrepreneurial Finance", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_557 },
+  { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Angel Investing", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Angel },
+  { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Biomedical Entrepreneurship", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Biomedical },
   { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Creative Destruction Lab", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_CDL }, 
+  { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Entrepreneurial Influence and the Pitch", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Pitch },
   { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Grand Challenges for Entrepreneurs", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Grand }, 
   { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Influencer Marketing: Profiting from Social Media", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Influencer },
   { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Intrapreneurship: Developing New Products", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Intrapreneurship },
   { sln: "N/A", code: "ENTRE 579", section: "N/A", title: "Women in Entrepreneurial Leadership", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_579_Women },
   { sln: "N/A", code: "ENTRE 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.ENTRE_600 },
+  
   { sln: "N/A", code: "FIN 530", section: "N/A", title: "Financial Management of Banks", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_530 }, 
   { sln: "N/A", code: "FIN 551", section: "N/A", title: "Problems in Business Finance", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_551 },
+  { sln: "N/A", code: "FIN 553", section: "N/A", title: "Problems in Capital Investment Planning", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_553 },
   { sln: "N/A", code: "FIN 558", section: "N/A", title: "Mergers and Acquisitions", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_558 },
+  { sln: "N/A", code: "FIN 560", section: "N/A", title: "Investments", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_560 },
   { sln: "N/A", code: "FIN 561", section: "N/A", title: "Financial Futures & Options Markets", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_561 },
+  { sln: "N/A", code: "FIN 566", section: "N/A", title: "Alternative Investments", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_566 },
   { sln: "N/A", code: "FIN 579", section: "N/A", title: "AI in Business", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_AI }, 
   { sln: "N/A", code: "FIN 579", section: "N/A", title: "Asian Capital Markets", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Asian },
   { sln: "N/A", code: "FIN 579", section: "N/A", title: "Behavioral Finance", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Behavioral },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "Climate Risk & Innovation", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Climate },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "Institutional Investment", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Institutional },
   { sln: "N/A", code: "FIN 579", section: "N/A", title: "International Business Compliance", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Compliance },
-  { sln: "N/A", code: "FIN 579", section: "N/A", title: "Introduction to Real Estate Finance & Investment", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Real_Estate },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "International Finance", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_IntlFinance },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "Introduction to Real Estate Finance & Investment", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_RealEstate },
   { sln: "N/A", code: "FIN 579", section: "N/A", title: "Machine Learning in Business", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_ML },
-  { sln: "N/A", code: "FIN 579", section: "N/A", title: "The Power of Access: Impact Lending", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Power },
+  { sln: "N/A", code: "FIN 579", section: "N/A", title: "The Power of Access: Impact Lending", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_579_Access },
   { sln: "N/A", code: "FIN 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.FIN_600 },
+  
   { sln: "N/A", code: "IS 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.IS_600 },
+  
+  { sln: "N/A", code: "IBUS 500", section: "N/A", title: "Global Business Forum", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.IBUS_500 },
   { sln: "N/A", code: "IBUS 570", section: "N/A", title: "International Study Program", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.IBUS_570 },
   { sln: "N/A", code: "IBUS 579", section: "N/A", title: "Applied Global Consulting Projects", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.IBUS_579 },
   { sln: "N/A", code: "IBUS 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.IBUS_600 },
+  
+  { sln: "N/A", code: "MGMT 509", section: "N/A", title: "Managing in a Global Environment", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_509 },
+  { sln: "N/A", code: "MGMT 545", section: "N/A", title: "Leading & Managing High Performance", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_545 },
+  { sln: "N/A", code: "MGMT 547", section: "N/A", title: "Successful Negotiations", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_547 },
   { sln: "N/A", code: "MGMT 548", section: "N/A", title: "Deal-Making in High Velocity Ventures", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_548 },
+  { sln: "N/A", code: "MGMT 550", section: "N/A", title: "CEO & Board Governance", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_550 },
   { sln: "N/A", code: "MGMT 555", section: "N/A", title: "Nonprofit Board Fellows Leadership Seminar", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_555 },
+  { sln: "N/A", code: "MGMT 575", section: "N/A", title: "Women in Leadership", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_575 },
   { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Corporate Equity", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Equity }, 
   { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Corporate Growth Strategies", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Growth },
   { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Developing Strategies for Social Impact", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Social },
   { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Human Sustainability", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Human },
+  { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Innovation, Strategy, and Design Thinking", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Innovation },
   { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Leading Across Cultures", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Cultures },
   { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Mindful Decision Making", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Mindful },
   { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Perspectives on ESG in Business", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_ESG },
   { sln: "N/A", code: "MGMT 579", section: "N/A", title: "Power and Status Dynamics in the Workplace", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_579_Power },
   { sln: "N/A", code: "MGMT 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MGMT_600 },
+  
+  { sln: "N/A", code: "MKTG 511", section: "N/A", title: "Business-to-Business Marketing", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_511 },
+  { sln: "N/A", code: "MKTG 535", section: "N/A", title: "Analytics Consulting Lab", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_535 },
+  { sln: "N/A", code: "MKTG 552", section: "N/A", title: "Consumer Marketing & Brand Management", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_552 },
   { sln: "N/A", code: "MKTG 554", section: "N/A", title: "Strategic Product Management", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_554 },
+  { sln: "N/A", code: "MKTG 556", section: "N/A", title: "Advertising & Promotion Management", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_556 },
+  { sln: "N/A", code: "MKTG 560", section: "N/A", title: "Consumer Insights", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_560 },
   { sln: "N/A", code: "MKTG 562", section: "N/A", title: "Customer Analytics", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_562 },
   { sln: "N/A", code: "MKTG 564", section: "N/A", title: "Analytics for Marketing Decisions", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_564 },
+  { sln: "N/A", code: "MKTG 565", section: "N/A", title: "Building Business Applications of LLMs", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_565 },
   { sln: "N/A", code: "MKTG 566", section: "N/A", title: "Digital Marketing Analytics", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_566 },
+  { sln: "N/A", code: "MKTG 568", section: "N/A", title: "Pricing Strategy and Analytics", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_568 },
   { sln: "N/A", code: "MKTG 579", section: "N/A", title: "Case Study Development Lab: Strategic Storytelling", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_Storytelling }, 
   { sln: "N/A", code: "MKTG 579", section: "N/A", title: "Consultative Selling", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_Consultative },
   { sln: "N/A", code: "MKTG 579", section: "N/A", title: "Go-to-Market Strategy", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_GoToMarket },
   { sln: "N/A", code: "MKTG 579", section: "N/A", title: "Pricing Principles and Strategies", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_Pricing },
   { sln: "N/A", code: "MKTG 579", section: "N/A", title: "The Sustainable Company", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_579_Sustainable },
   { sln: "N/A", code: "MKTG 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.MKTG_600 },
+  
   { sln: "N/A", code: "OPMGT 530", section: "N/A", title: "Risk: Measurement, Management, and Leadership", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_530 },
   { sln: "N/A", code: "OPMGT 540", section: "N/A", title: "Sustainable Design of Global Supply Chains", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_540 },
+  { sln: "N/A", code: "OPMGT 550", section: "N/A", title: "Project Management", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_550 },
   { sln: "N/A", code: "OPMGT 560", section: "N/A", title: "Supply Chain Management", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_560 },
   { sln: "N/A", code: "OPMGT 565", section: "N/A", title: "Business Analytics: Tools for Big Data", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_565 },
   { sln: "N/A", code: "OPMGT 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.OPMGT_600 },
+  
   { sln: "N/A", code: "QMETH 551", section: "N/A", title: "Modeling with Spreadsheets", credits: 4, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.QMETH_551 },
   { sln: "N/A", code: "QMETH 600", section: "N/A", title: "Independent Study", credits: 2, instructor: "TBD", room: "TBD", days: "TBD", time: "TBD", quarter: "Catalog", syllabusLink: COURSE_LINKS.QMETH_600 },
 ];
