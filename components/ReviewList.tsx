@@ -1,16 +1,13 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Review } from '../types';
-import { Quote, User, ChevronDown, ChevronUp } from 'lucide-react';
+import { Quote, User } from 'lucide-react';
 
 interface ReviewListProps {
   reviews: Review[];
 }
 
 const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
-  const [showAll, setShowAll] = useState(false);
-  const INITIAL_COUNT = 2;
-
   if (reviews.length === 0) {
     return (
       <div className="p-6 text-center text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-300">
@@ -19,17 +16,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
     );
   }
 
-  const displayedReviews = showAll ? reviews : reviews.slice(0, INITIAL_COUNT);
-  const remainingCount = reviews.length - INITIAL_COUNT;
-
   return (
     <div className="space-y-4">
       <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3 flex items-center gap-2">
         Student Feedback ({reviews.length})
       </h3>
       
-      <div className={`grid gap-4 transition-all duration-300 ease-in-out ${showAll ? 'max-h-[500px] overflow-y-auto pr-2' : ''}`}>
-        {displayedReviews.map((review) => (
+      <div className={`grid gap-4 transition-all duration-300 ease-in-out ${reviews.length > 2 ? 'max-h-[500px] overflow-y-auto pr-2' : ''}`}>
+        {reviews.map((review) => (
           <div key={review.id} className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-all">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 mt-1">
@@ -57,25 +51,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
           </div>
         ))}
       </div>
-
-      {reviews.length > INITIAL_COUNT && (
-        <div className="flex justify-center pt-2">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-purple-700 bg-white border border-purple-200 rounded-full hover:bg-purple-50 hover:border-purple-300 shadow-sm transition-all group"
-          >
-            {showAll ? (
-              <>
-                Show Less <ChevronUp className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
-              </>
-            ) : (
-              <>
-                Show {remainingCount} More Review{remainingCount !== 1 ? 's' : ''} <ChevronDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
-              </>
-            )}
-          </button>
-        </div>
-      )}
     </div>
   );
 };
