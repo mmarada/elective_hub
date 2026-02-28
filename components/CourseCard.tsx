@@ -1,9 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Course, Review } from '../types';
 import { ChevronDown, ChevronUp, Clock, MapPin, Calendar, BookOpen, GraduationCap, Mail, Info, FileText, CheckCircle, Book, Star, Layers, FileImage, FileInput, ExternalLink } from 'lucide-react';
 import ReviewList from './ReviewList';
+import ReviewForm from './ReviewForm';
 import { courseDetails } from '../data';
+import { supabase } from '../supabaseClient';
 
 interface CourseCardProps {
   course: Course;
@@ -13,10 +15,12 @@ interface CourseCardProps {
 const CourseCard: React.FC<CourseCardProps> = ({ course, reviews }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'syllabus' | 'reviews'>('overview');
+  const [dynamicReviews, setDynamicReviews] = useState<Review[]>([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
 
   // Filter reviews to match this specific course context better if it's a generic ID
   // For special topics (like ENTRE 579), we try to match the title or instructor if possible
-  const relevantReviews = reviews.filter(r => {
+  const staticReviews = reviews.filter(r => {
     // Exact code match required
     if (r.courseId !== course.code && r.courseId !== course.code.split('/')[0]) return false;
     
@@ -35,7 +39,45 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews }) => {
     return true;
   });
 
-  const hasReviews = relevantReviews.length > 0;
+  const fetchDynamicReviews = async () => {
+    if (!supabase) return; // Skip if Supabase is not configured
+
+    setLoadingReviews(true);
+    try {
+      const { data, error } = await supabase
+        .from('reviews')
+        .select('*')
+        .eq('course_id', course.code);
+
+      if (error) throw error;
+
+      if (data) {
+        const formattedReviews: Review[] = data.map((r: any) => ({
+          id: r.id,
+          courseId: r.course_id,
+          courseTitleContext: r.course_title_context,
+          professor: r.professor,
+          year: r.year,
+          content: r.content,
+          author: r.author,
+        }));
+        setDynamicReviews(formattedReviews);
+      }
+    } catch (err) {
+      console.error('Error fetching reviews:', err);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'reviews' && isExpanded) {
+      fetchDynamicReviews();
+    }
+  }, [activeTab, isExpanded, course.code]);
+
+  const allReviews = [...staticReviews, ...dynamicReviews];
+  const hasReviews = allReviews.length > 0;
   const description = course.syllabus?.description || courseDetails[course.code] || "No detailed description available. Please contact the instructor for the latest syllabus.";
 
   // Prepare email content
@@ -85,7 +127,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews }) => {
               {hasReviews && (
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 animate-in fade-in duration-500">
                   <Star className="w-3 h-3 mr-1 fill-amber-400 text-amber-400" />
-                  {relevantReviews.length} Review{relevantReviews.length > 1 ? 's' : ''}
+                  {allReviews.length} Review{allReviews.length > 1 ? 's' : ''}
                 </span>
               )}
             </div>
@@ -150,7 +192,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews }) => {
                className={`flex-1 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'reviews' ? 'border-purple-500 text-purple-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                onClick={() => setActiveTab('reviews')}
              >
-               Reviews ({relevantReviews.length})
+               Reviews ({allReviews.length})
              </button>
           </div>
 
@@ -280,7 +322,15 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews }) => {
             )}
 
             {activeTab === 'reviews' && (
-               <ReviewList reviews={relevantReviews} />
+               <>
+                 <ReviewList reviews={allReviews} />
+                 <ReviewForm 
+                   courseId={course.code} 
+                   courseTitle={course.title} 
+                   defaultProfessor={course.instructor}
+                   onReviewSubmitted={fetchDynamicReviews}
+                 />
+               </>
             )}
           </div>
         </div>

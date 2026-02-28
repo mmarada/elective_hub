@@ -214,6 +214,9 @@ function App() {
             <p className="text-gray-400 text-sm">
               &copy; 2026 Foster School of Business - MBA Elective Dashboard. Data updated 2/3/2026.
             </p>
+            <p className="text-gray-400 text-sm mt-2">
+              Created by Mohan Marada, FT MBA '27
+            </p>
          </div>
       </footer>
     </div>
