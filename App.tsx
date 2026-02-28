@@ -134,24 +134,30 @@ function App() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-purple-100 selection:text-purple-900">
+      {/* Background Gradient Blob */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-200/30 blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-200/30 blur-[100px]" />
+      </div>
+
       {/* Top Navigation Bar */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm backdrop-blur-md bg-opacity-90">
+      <nav className="sticky top-0 z-50 bg-white/80 border-b border-gray-200/80 shadow-sm backdrop-blur-xl transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-purple-900 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-purple-900/20 shadow-lg">
+            <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <div className="w-9 h-9 bg-gradient-to-br from-purple-900 to-indigo-800 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-purple-900/20 group-hover:scale-105 transition-transform duration-300">
                 F
               </div>
-              <div>
-                <h1 className="text-lg font-bold text-gray-900 leading-none">MBA Electives</h1>
-                <span className="text-xs text-purple-700 font-medium">Foster School of Business</span>
+              <div className="flex flex-col">
+                <h1 className="text-lg font-bold text-gray-900 leading-none tracking-tight group-hover:text-purple-900 transition-colors">MBA Electives</h1>
+                <span className="text-[10px] sm:text-xs text-purple-700 font-medium tracking-wide uppercase">Foster School of Business</span>
               </div>
             </div>
             <div className="flex items-center gap-4">
                <a 
                  href="mailto:mbaregis@uw.edu" 
-                 className="hidden md:flex text-sm text-gray-500 hover:text-purple-700 font-medium items-center gap-2 transition-colors"
+                 className="hidden md:flex text-sm text-gray-500 hover:text-purple-700 font-medium items-center gap-2 transition-all hover:bg-purple-50 px-3 py-1.5 rounded-lg"
                >
                  <Mail className="w-4 h-4" />
                  mbaregis@uw.edu
@@ -162,66 +168,68 @@ function App() {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         
         {/* Header Section */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Course Dashboard</h2>
-          <p className="mt-2 text-gray-600 max-w-2xl">
+        <div className="mb-8 sm:mb-12 text-center sm:text-left">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-3 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600">
+            Course Dashboard
+          </h2>
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto sm:mx-0 leading-relaxed">
             Explore available electives across quarters. View schedules, download syllabi, and read peer reviews to make informed decisions.
           </p>
         </div>
 
         {/* Controls Section */}
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm mb-6 sticky top-20 z-40">
-          <div className="flex flex-col md:flex-row gap-4 items-center">
+        <div className="bg-white/70 backdrop-blur-md p-4 sm:p-6 rounded-2xl border border-white/50 shadow-xl shadow-gray-200/50 mb-8 sticky top-20 z-40 transition-all duration-300">
+          <div className="flex flex-col gap-4">
             
             {/* Search */}
-            <div className="relative flex-1 w-full">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-purple-500" />
               </div>
               <input
                 type="text"
                 placeholder="Search by course, SLN, or professor..."
-                className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition duration-150 ease-in-out sm:text-sm"
+                className="block w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl leading-5 bg-white/50 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-200 shadow-sm hover:shadow-md text-base"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
 
             {/* Filters */}
-            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 w-full md:w-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               
               {/* Quarter Filter */}
-              <div className="relative group w-full sm:min-w-[140px]">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Layers className="h-4 w-4 text-gray-500" />
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                  <Layers className="h-4 w-4 text-gray-500 group-hover:text-purple-600 transition-colors" />
                 </div>
                 <select
                   value={quarterFilter}
                   onChange={(e) => setQuarterFilter(e.target.value)}
-                  className="block w-full pl-9 pr-8 py-2.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 appearance-none cursor-pointer hover:bg-gray-50 font-medium text-purple-700"
+                  className="block w-full pl-10 pr-10 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none cursor-pointer hover:border-purple-300 hover:shadow-sm transition-all font-medium text-gray-700"
                 >
                   <option value="All">All Quarters</option>
                   {quarters.filter(q => q !== 'All').map(q => (
                     <option key={q} value={q}>{q}</option>
                   ))}
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                   <Filter className="h-3 w-3 text-gray-400" />
                 </div>
               </div>
 
               {/* Day Filter */}
-              <div className="relative group w-full sm:min-w-[140px]">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <CalendarDays className="h-4 w-4 text-gray-500" />
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                  <CalendarDays className="h-4 w-4 text-gray-500 group-hover:text-purple-600 transition-colors" />
                 </div>
                 <select
                   value={dayFilter}
                   onChange={(e) => setDayFilter(e.target.value as DayFilter)}
-                  className="block w-full pl-9 pr-8 py-2.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 appearance-none cursor-pointer hover:bg-gray-50"
+                  className="block w-full pl-10 pr-10 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none cursor-pointer hover:border-purple-300 hover:shadow-sm transition-all font-medium text-gray-700"
                 >
                   <option value="All">All Days</option>
                   <option value="Mon/Wed">Mon/Wed</option>
@@ -229,27 +237,27 @@ function App() {
                   <option value="Evening">Evening (5pm+)</option>
                   <option value="Friday">Friday</option>
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                   <Filter className="h-3 w-3 text-gray-400" />
                 </div>
               </div>
 
               {/* Instructor Filter */}
-              <div className="relative group w-full sm:min-w-[160px] col-span-2 sm:col-span-1">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <GraduationCap className="h-4 w-4 text-gray-500" />
+              <div className="relative group sm:col-span-2 lg:col-span-1">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                  <GraduationCap className="h-4 w-4 text-gray-500 group-hover:text-purple-600 transition-colors" />
                 </div>
                 <select
                   value={instructorFilter}
                   onChange={(e) => setInstructorFilter(e.target.value)}
-                  className="block w-full pl-9 pr-8 py-2.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 appearance-none cursor-pointer hover:bg-gray-50"
+                  className="block w-full pl-10 pr-10 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none cursor-pointer hover:border-purple-300 hover:shadow-sm transition-all font-medium text-gray-700"
                 >
                   <option value="All">All Instructors</option>
                   {instructors.filter(i => i !== 'All').map(instructor => (
                     <option key={instructor} value={instructor}>{instructor}</option>
                   ))}
                 </select>
-                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                 <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                   <Filter className="h-3 w-3 text-gray-400" />
                 </div>
               </div>
@@ -258,15 +266,20 @@ function App() {
         </div>
 
         {/* Results Info */}
-        <div className="flex items-center justify-between mb-4 px-1">
-          <span className="text-sm font-medium text-gray-500">
+        <div className="flex items-center justify-between mb-6 px-2">
+          <span className="text-sm font-semibold text-gray-500 bg-white/50 px-3 py-1 rounded-full border border-gray-100 shadow-sm">
             Showing {filteredCourses.length} courses
           </span>
-          {loading && <span className="text-sm text-purple-600 animate-pulse">Loading data...</span>}
+          {loading && (
+            <div className="flex items-center gap-2 text-sm text-purple-600 font-medium animate-pulse">
+              <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+              Loading data...
+            </div>
+          )}
         </div>
 
         {/* Course Grid */}
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-6">
           {filteredCourses.length > 0 ? (
             filteredCourses.map((course, index) => (
               <CourseCard 
@@ -277,12 +290,12 @@ function App() {
               />
             ))
           ) : (
-            <div className="text-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
-              <div className="mx-auto h-12 w-12 text-gray-300">
-                <Search className="h-full w-full" />
+            <div className="text-center py-24 bg-white/60 backdrop-blur-sm rounded-3xl border border-dashed border-gray-300 shadow-sm">
+              <div className="mx-auto h-16 w-16 text-purple-200 bg-purple-50 rounded-full flex items-center justify-center mb-4">
+                <Search className="h-8 w-8" />
               </div>
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No courses found</h3>
-              <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
+              <h3 className="mt-2 text-lg font-bold text-gray-900">No courses found</h3>
+              <p className="mt-1 text-gray-500 max-w-xs mx-auto">We couldn't find any courses matching your current filters.</p>
               <button 
                 onClick={() => {
                   setSearchQuery(''); 
@@ -290,7 +303,7 @@ function App() {
                   setInstructorFilter('All');
                   setQuarterFilter('All');
                 }}
-                className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                className="mt-6 inline-flex items-center px-6 py-2.5 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all hover:shadow-lg hover:-translate-y-0.5"
               >
                 Clear all filters
               </button>
@@ -300,24 +313,29 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-12 py-8">
+      <footer className="relative z-10 bg-white border-t border-gray-200 mt-20 py-12">
          <div className="max-w-7xl mx-auto px-4 text-center">
-            <p className="text-gray-400 text-sm">
-              &copy; 
+            <div className="flex justify-center mb-6">
+              <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400">
+                <span className="font-bold text-lg">F</span>
+              </div>
+            </div>
+            <p className="text-gray-500 text-sm font-medium">
+              &copy; {new Date().getFullYear()} Foster School of Business
             </p>
             <p className="text-gray-400 text-sm mt-2">
               Created by Mohan Marada, FT MBA '27
             </p>
             
             {supabase && (
-              <div className="mt-4">
+              <div className="mt-8">
                 <button 
                   onClick={handleSeed}
                   disabled={seeding}
-                  className="text-xs text-gray-300 hover:text-purple-600 transition-colors flex items-center justify-center gap-1 mx-auto"
+                  className="text-xs text-gray-400 hover:text-purple-600 transition-colors flex items-center justify-center gap-1.5 mx-auto px-3 py-1.5 rounded-full hover:bg-purple-50"
                 >
                   <Database className="w-3 h-3" />
-                  {seeding ? 'Seeding...' : 'Seed Database'}
+                  {seeding ? 'Seeding Database...' : 'Reset Database Data'}
                 </button>
               </div>
             )}

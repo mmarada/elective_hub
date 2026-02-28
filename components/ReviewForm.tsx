@@ -70,49 +70,56 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ courseId, courseTitle, defaultP
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mt-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-        <Send className="w-5 h-5 text-purple-600" />
+    <div className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm mt-8 relative overflow-hidden">
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-bl-full -mr-10 -mt-10 pointer-events-none opacity-50"></div>
+      
+      <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 relative z-10">
+        <div className="bg-purple-100 p-2 rounded-lg">
+          <Send className="w-5 h-5 text-purple-600" />
+        </div>
         Write a Review
       </h3>
       
       {success && (
-        <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm font-medium border border-green-200">
-          Review submitted successfully!
+        <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-xl text-sm font-medium border border-green-200 flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
+          <div className="w-2 h-2 rounded-full bg-green-500"></div>
+          Review submitted successfully! Thank you for your feedback.
         </div>
       )}
 
       {error && (
-        <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm font-medium border border-red-200">
+        <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-xl text-sm font-medium border border-red-200 flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
+          <div className="w-2 h-2 rounded-full bg-red-500"></div>
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
         <div>
-          <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
-            Your Review
+          <label htmlFor="content" className="block text-sm font-bold text-gray-700 mb-2">
+            Your Experience
           </label>
           <textarea
             id="content"
             required
             rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all"
-            placeholder="Share your experience with this course..."
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 hover:bg-white resize-y text-sm sm:text-base"
+            placeholder="Share your thoughts on the course structure, workload, and professor..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <div>
-            <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
-              <User className="w-3 h-3" /> Name (Optional)
+            <label htmlFor="author" className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-1.5">
+              <User className="w-4 h-4 text-gray-400" /> Name <span className="text-gray-400 font-normal text-xs">(Optional)</span>
             </label>
             <input
               type="text"
               id="author"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 hover:bg-white text-sm"
               placeholder="Anonymous"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
@@ -120,14 +127,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ courseId, courseTitle, defaultP
           </div>
 
           <div>
-            <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
-              <Calendar className="w-3 h-3" /> Year Taken
+            <label htmlFor="year" className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-gray-400" /> Year Taken
             </label>
             <input
               type="text"
               id="year"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 hover:bg-white text-sm"
               placeholder="e.g. 2025"
               value={year}
               onChange={(e) => setYear(e.target.value)}
@@ -135,14 +142,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ courseId, courseTitle, defaultP
           </div>
 
           <div>
-            <label htmlFor="professor" className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
-              <GraduationCap className="w-3 h-3" /> Professor
+            <label htmlFor="professor" className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-1.5">
+              <GraduationCap className="w-4 h-4 text-gray-400" /> Professor
             </label>
             <input
               type="text"
               id="professor"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 hover:bg-white text-sm"
               placeholder="Professor Name"
               value={professor}
               onChange={(e) => setProfessor(e.target.value)}
@@ -154,11 +161,18 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ courseId, courseTitle, defaultP
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`px-6 py-2 bg-purple-600 text-white font-medium rounded-lg shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors ${
-              isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+            className={`px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 ${
+              isSubmitting ? 'opacity-70 cursor-not-allowed transform-none' : ''
             }`}
           >
-            {isSubmitting ? 'Submitting...' : 'Submit Review'}
+            {isSubmitting ? (
+              <span className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                Submitting...
+              </span>
+            ) : (
+              'Submit Review'
+            )}
           </button>
         </div>
       </form>
