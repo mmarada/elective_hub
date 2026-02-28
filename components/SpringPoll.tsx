@@ -112,18 +112,18 @@ const SpringPoll: React.FC<SpringPollProps> = ({ courses, isOpen, onClose }) => 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity animate-in fade-in duration-200" 
         onClick={onClose} 
       />
 
-      {/* Drawer */}
-      <div className="relative w-full max-w-md h-full bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 border-l border-gray-100">
+      {/* Modal */}
+      <div className="relative w-full max-w-[380px] max-h-[80vh] bg-white rounded-2xl shadow-2xl flex flex-col animate-in zoom-in-95 duration-200 overflow-hidden">
         
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 sm:p-6 text-white shrink-0 relative">
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 sm:p-5 text-white shrink-0 relative">
           <button 
             onClick={onClose}
             className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors flex items-center justify-center z-10"
@@ -146,7 +146,7 @@ const SpringPoll: React.FC<SpringPollProps> = ({ courses, isOpen, onClose }) => 
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 custom-scrollbar">
           {showResults ? (
             <>
               <PollResults courses={springCourses} />
@@ -217,9 +217,9 @@ const SpringPoll: React.FC<SpringPollProps> = ({ courses, isOpen, onClose }) => 
 
         {/* Footer Actions (Only show when voting) */}
         {!showResults && (
-          <div className="p-6 border-t border-gray-100 bg-gray-50 shrink-0">
-            <div className="flex flex-col gap-4">
-              <div className="space-y-4 mb-6 pt-2">
+          <div className="p-4 sm:p-5 border-t border-gray-100 bg-gray-50 shrink-0">
+            <div className="flex flex-col gap-3">
+              <div className="space-y-3 mb-4 pt-1">
                 <div>
                   <label htmlFor="studentName" className="block text-sm font-bold text-gray-700 mb-1.5">
                     Your Name <span className="text-gray-400 font-normal text-xs">(Optional)</span>
