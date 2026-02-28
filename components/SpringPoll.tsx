@@ -13,6 +13,8 @@ interface SpringPollProps {
 const SpringPoll: React.FC<SpringPollProps> = ({ courses, isOpen, onClose }) => {
   const [springCourses, setSpringCourses] = useState<Course[]>([]);
   const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
+  const [studentName, setStudentName] = useState('');
+  const [mbaYear, setMbaYear] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -85,7 +87,9 @@ const SpringPoll: React.FC<SpringPollProps> = ({ courses, isOpen, onClose }) => 
       if (!supabase) throw new Error("Supabase client not initialized");
 
       const votes = selectedCourses.map(courseId => ({
-        course_id: courseId
+        course_id: courseId,
+        student_name: studentName || null,
+        mba_year: mbaYear || null
       }));
 
       const { error } = await supabase
@@ -219,6 +223,40 @@ const SpringPoll: React.FC<SpringPollProps> = ({ courses, isOpen, onClose }) => 
                 </span>
               </div>
               
+              <div className="space-y-4 mb-6 pt-4 border-t border-gray-100">
+                <div>
+                  <label htmlFor="studentName" className="block text-sm font-bold text-gray-700 mb-1.5">
+                    Your Name <span className="text-gray-400 font-normal text-xs">(Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="studentName"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 hover:bg-white text-sm"
+                    placeholder="e.g. Jane Doe"
+                    value={studentName}
+                    onChange={(e) => setStudentName(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="mbaYear" className="block text-sm font-bold text-gray-700 mb-1.5">
+                    MBA Class Year <span className="text-gray-400 font-normal text-xs">(Optional)</span>
+                  </label>
+                  <select
+                    id="mbaYear"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 hover:bg-white text-sm cursor-pointer appearance-none"
+                    value={mbaYear}
+                    onChange={(e) => setMbaYear(e.target.value)}
+                  >
+                    <option value="">Select Year...</option>
+                    <option value="2025">Class of 2025</option>
+                    <option value="2026">Class of 2026</option>
+                    <option value="2027">Class of 2027</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
               {hasVoted ? (
                  <button
                   onClick={() => setShowResults(true)}

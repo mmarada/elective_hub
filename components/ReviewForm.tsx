@@ -130,15 +130,22 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ courseId, courseTitle, defaultP
             <label htmlFor="year" className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-1.5">
               <Calendar className="w-4 h-4 text-gray-400" /> Year Taken
             </label>
-            <input
-              type="text"
+            <select
               id="year"
               required
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 hover:bg-white text-sm"
-              placeholder="e.g. 2025"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 hover:bg-white text-sm cursor-pointer appearance-none"
               value={year}
               onChange={(e) => setYear(e.target.value)}
-            />
+            >
+              {[0, 1, 2, 3].map((offset) => {
+                const y = new Date().getFullYear() - offset;
+                return (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                );
+              })}
+            </select>
           </div>
 
           <div>
