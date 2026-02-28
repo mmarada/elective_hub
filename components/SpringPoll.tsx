@@ -21,7 +21,12 @@ const SpringPoll: React.FC<SpringPollProps> = ({ courses, isOpen, onClose }) => 
   useEffect(() => {
     // Filter for Spring quarter courses
     const spring = courses.filter(c => c.quarter.toLowerCase().includes('spring'));
-    setSpringCourses(spring);
+    
+    // Deduplicate by code to prevent React key errors and UI confusion
+    // We use a Map to keep the first occurrence of each course code
+    const uniqueSpring = Array.from(new Map(spring.map(item => [item.code, item])).values());
+    
+    setSpringCourses(uniqueSpring);
     
     // Check if user has already voted (using localStorage for simple prevention)
     const voted = localStorage.getItem('hasVotedSpring2025');

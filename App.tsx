@@ -2,10 +2,10 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { courses as staticCourses, reviews as staticReviews } from './data';
 import CourseCard from './components/CourseCard';
-import { Search, Filter, CalendarDays, GraduationCap, Mail, Layers, Database, Vote } from 'lucide-react';
+import { Search, Filter, CalendarDays, GraduationCap, Mail, Layers, Vote } from 'lucide-react';
 import { DayFilter, Course, Review } from './types';
 import { supabase } from './supabaseClient';
-import { seedDatabase } from './seedData';
+
 
 import SpringPoll from './components/SpringPoll';
 
@@ -13,7 +13,7 @@ function App() {
   const [courses, setCourses] = useState<Course[]>(staticCourses);
   const [reviews, setReviews] = useState<Review[]>(staticReviews);
   const [loading, setLoading] = useState(true);
-  const [seeding, setSeeding] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [dayFilter, setDayFilter] = useState<DayFilter>('All');
   const [instructorFilter, setInstructorFilter] = useState('All');
@@ -87,20 +87,7 @@ function App() {
     }
   };
 
-  const handleSeed = async () => {
-    if (!confirm('This will populate the database with initial data. Continue?')) return;
-    
-    setSeeding(true);
-    const result = await seedDatabase();
-    setSeeding(false);
-    
-    if (result.success) {
-      alert(result.message);
-      fetchData(); // Refresh data
-    } else {
-      alert('Error: ' + result.message);
-    }
-  };
+
 
   // Derive unique instructors for filter
   const instructors = useMemo(() => {
@@ -325,30 +312,11 @@ function App() {
       {/* Footer */}
       <footer className="relative z-10 bg-white border-t border-gray-200 mt-20 py-12">
          <div className="max-w-7xl mx-auto px-4 text-center">
-            <div className="flex justify-center mb-6">
-              <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400">
-                <span className="font-bold text-lg">F</span>
+            <div className="flex justify-center">
+              <div className="bg-gray-900 text-white px-4 py-2 rounded-lg font-bold text-xl tracking-tight shadow-lg border border-gray-800">
+                MV3
               </div>
             </div>
-            <p className="text-gray-500 text-sm font-medium">
-              &copy; {new Date().getFullYear()} Foster School of Business
-            </p>
-            <p className="text-gray-400 text-sm mt-2">
-              Created by Mohan Marada, FT MBA '27
-            </p>
-            
-            {supabase && (
-              <div className="mt-8">
-                <button 
-                  onClick={handleSeed}
-                  disabled={seeding}
-                  className="text-xs text-gray-400 hover:text-purple-600 transition-colors flex items-center justify-center gap-1.5 mx-auto px-3 py-1.5 rounded-full hover:bg-purple-50"
-                >
-                  <Database className="w-3 h-3" />
-                  {seeding ? 'Seeding Database...' : 'Reset Database Data'}
-                </button>
-              </div>
-            )}
          </div>
       </footer>
 
