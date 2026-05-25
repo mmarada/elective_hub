@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Course, Review } from '../types';
-import { ChevronDown, ChevronUp, Clock, MapPin, Calendar, BookOpen, GraduationCap, Mail, Info, FileText, CheckCircle, Book, Star, Layers, FileImage, FileInput, ExternalLink } from 'lucide-react';
+import { ChevronDown, ChevronUp, Clock, MapPin, Calendar, BookOpen, GraduationCap, Mail, Info, FileText, CheckCircle, Book, Star, Layers, FileImage, FileInput, ExternalLink, Bookmark, BookmarkCheck } from 'lucide-react';
 import ReviewList from './ReviewList';
 import ReviewForm from './ReviewForm';
 import { courseDetails } from '../data';
@@ -11,9 +11,11 @@ interface CourseCardProps {
   course: Course;
   reviews: Review[];
   onReviewSubmitted?: () => void;
+  isSaved?: boolean;
+  onToggleSave?: (course: Course) => void;
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmitted }) => {
+const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmitted, isSaved = false, onToggleSave }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'syllabus' | 'reviews'>('overview');
 
@@ -123,14 +125,24 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmit
           </div>
         </div>
         
-        <div className="mt-5 flex justify-center">
-            <div className={`p-1 rounded-full transition-colors duration-300 ${isExpanded ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-400 group-hover:bg-purple-50 group-hover:text-purple-400'}`}>
-                {isExpanded ? (
-                    <ChevronUp className="w-5 h-5" />
-                ) : (
-                    <ChevronDown className="w-5 h-5" />
-                )}
-            </div>
+        <div className="mt-5 flex justify-between items-center">
+          {onToggleSave && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onToggleSave(course); }}
+              className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all ${isSaved ? 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200' : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200'}`}
+              title={isSaved ? 'Remove from plan' : 'Save to plan'}
+            >
+              {isSaved ? <BookmarkCheck className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
+              {isSaved ? 'Saved to Plan' : 'Save to Plan'}
+            </button>
+          )}
+          <div className={`p-1 rounded-full transition-colors duration-300 ${onToggleSave ? '' : 'mx-auto'} ${isExpanded ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-400 group-hover:bg-purple-50 group-hover:text-purple-400'}`}>
+              {isExpanded ? (
+                  <ChevronUp className="w-5 h-5" />
+              ) : (
+                  <ChevronDown className="w-5 h-5" />
+              )}
+          </div>
         </div>
       </div>
 

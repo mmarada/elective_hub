@@ -2,12 +2,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { courses as staticCourses, reviews as staticReviews } from './data';
 import CourseCard from './components/CourseCard';
-import { Search, Filter, CalendarDays, GraduationCap, Mail, Layers, Vote } from 'lucide-react';
+import CoursePlan from './components/CoursePlan';
+import { Search, Filter, CalendarDays, GraduationCap, Mail, Layers, Vote, CalendarCheck } from 'lucide-react';
 import { DayFilter, Course, Review } from './types';
 import { supabase } from './supabaseClient';
 
-
 import SpringPoll from './components/SpringPoll';
+
+const PLAN_STORAGE_KEY = 'elective_hub_plan_v1';
 
 function App() {
   const [courses, setCourses] = useState<Course[]>(staticCourses);
@@ -19,10 +21,35 @@ function App() {
   const [instructorFilter, setInstructorFilter] = useState('All');
   const [quarterFilter, setQuarterFilter] = useState('Spring 2026');
   const [isPollOpen, setIsPollOpen] = useState(false);
+  const [isPlanOpen, setIsPlanOpen] = useState(false);
+  const [savedCourses, setSavedCourses] = useState<Course[]>(() => {
+    try {
+      const raw = localStorage.getItem(PLAN_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(savedCourses));
+  }, [savedCourses]);
+
+  const toggleSaveCourse = (course: Course) => {
+    setSavedCourses(prev =>
+      prev.some(c => c.sln === course.sln)
+        ? prev.filter(c => c.sln !== course.sln)
+        : [...prev, course]
+    );
+  };
+
+  const removeSavedCourse = (sln: string) => {
+    setSavedCourses(prev => prev.filter(c => c.sln !== sln));
+  };
 
   const fetchData = async () => {
     if (!supabase) {
@@ -144,14 +171,26 @@ function App() {
                 <span className="text-[10px] sm:text-xs text-purple-700 font-medium tracking-wide uppercase">Foster School of Business</span>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-               <a 
-                 href="mailto:mbaregis@uw.edu" 
+            <div className="flex items-center gap-3">
+               <a
+                 href="mailto:mbaregis@uw.edu"
                  className="hidden md:flex text-sm text-gray-500 hover:text-purple-700 font-medium items-center gap-2 transition-all hover:bg-purple-50 px-3 py-1.5 rounded-lg"
                >
                  <Mail className="w-4 h-4" />
                  mbaregis@uw.edu
                </a>
+               <button
+                 onClick={() => setIsPlanOpen(true)}
+                 className="relative flex items-center gap-2 text-sm font-semibold text-purple-800 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-3 py-1.5 rounded-lg transition-all"
+               >
+                 <CalendarCheck className="w-4 h-4" />
+                 <span className="hidden sm:inline">My Plan</span>
+                 {savedCourses.length > 0 && (
+                   <span className="absolute -top-1.5 -right-1.5 w-5 h-5 flex items-center justify-center text-[10px] font-bold text-white bg-purple-700 rounded-full border-2 border-white shadow-sm">
+                     {savedCourses.length}
+                   </span>
+                 )}
+               </button>
             </div>
           </div>
         </div>
@@ -279,11 +318,13 @@ function App() {
         <div className="grid grid-cols-1 gap-6">
           {filteredCourses.length > 0 ? (
             filteredCourses.map((course, index) => (
-              <CourseCard 
-                key={`${course.quarter}-${course.sln}-${course.code}-${index}`} 
-                course={course} 
-                reviews={reviews} 
+              <CourseCard
+                key={`${course.quarter}-${course.sln}-${course.code}-${index}`}
+                course={course}
+                reviews={reviews}
                 onReviewSubmitted={fetchData}
+                isSaved={savedCourses.some(c => c.sln === course.sln)}
+                onToggleSave={toggleSaveCourse}
               />
             ))
           ) : (
@@ -308,6 +349,15 @@ function App() {
           )}
         </div>
       </main>
+
+      {/* Course Plan Drawer */}
+      {isPlanOpen && (
+        <CoursePlan
+          savedCourses={savedCourses}
+          onRemove={removeSavedCourse}
+          onClose={() => setIsPlanOpen(false)}
+        />
+      )}
 
       {/* Floating Vote Button - High Visibility */}
       {!isPollOpen && (
