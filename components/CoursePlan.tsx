@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Course } from '../types';
-import { X, Calendar, Download, BookmarkX, Clock, MapPin } from 'lucide-react';
+import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle } from 'lucide-react';
 
 interface CoursePlanProps {
   savedCourses: Course[];
@@ -51,6 +51,49 @@ function parseTime(time: string): { start: string; end: string } {
 
 function uid(course: Course): string {
   return `${course.sln}-${course.code.replace(/\s/g, '')}-elective-hub@uw.edu`;
+}
+
+// --- Conflict Detection ---
+
+function parseDaysArray(days: string): string[] {
+  return days.split('/').map(d => d.trim()).filter(Boolean);
+}
+
+function parseTimeToMinutes(time: string): { start: number; end: number } | null {
+  const parts = time.split('-');
+  if (parts.length !== 2) return null;
+  const toMins = (t: string) => {
+    const [h, m] = t.trim().split(':').map(Number);
+    return h * 60 + (m || 0);
+  };
+  return { start: toMins(parts[0]), end: toMins(parts[1]) };
+}
+
+interface Conflict {
+  a: Course;
+  b: Course;
+  sharedDays: string[];
+}
+
+function detectConflicts(courses: Course[]): Conflict[] {
+  const conflicts: Conflict[] = [];
+  for (let i = 0; i < courses.length; i++) {
+    for (let j = i + 1; j < courses.length; j++) {
+      const a = courses[i];
+      const b = courses[j];
+      const daysA = parseDaysArray(a.days);
+      const daysB = parseDaysArray(b.days);
+      const sharedDays = daysA.filter(d => daysB.includes(d));
+      if (sharedDays.length === 0) continue;
+      const timeA = parseTimeToMinutes(a.time);
+      const timeB = parseTimeToMinutes(b.time);
+      if (!timeA || !timeB) continue;
+      // Overlap: not (A ends before B starts or B ends before A starts)
+      const overlaps = timeA.start < timeB.end && timeB.start < timeA.end;
+      if (overlaps) conflicts.push({ a, b, sharedDays });
+    }
+  }
+  return conflicts;
 }
 
 function buildIcal(courses: Course[]): string {
@@ -103,6 +146,9 @@ function downloadIcal(courses: Course[]) {
 }
 
 const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose }) => {
+  const conflicts = detectConflicts(savedCourses);
+  const conflictingSlns = new Set(conflicts.flatMap(c => [c.a.sln, c.b.sln]));
+
   return (
     <div className="fixed inset-0 z-[60] flex justify-end">
       {/* Backdrop */}
@@ -132,6 +178,28 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
           </button>
         </div>
 
+        {/* Conflict Warning Banner */}
+        {conflicts.length > 0 && (
+          <div className="mx-6 mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3">
+            <div className="flex items-start gap-2">
+              <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-xs font-bold text-amber-800">
+                  {conflicts.length} schedule conflict{conflicts.length > 1 ? 's' : ''} detected
+                </p>
+                <ul className="mt-1 space-y-0.5">
+                  {conflicts.map((c, i) => (
+                    <li key={i} className="text-xs text-amber-700">
+                      <span className="font-semibold">{c.a.code}</span> &amp; <span className="font-semibold">{c.b.code}</span>
+                      {' '}overlap on <span className="font-semibold">{c.sharedDays.join(', ')}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Course List */}
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
           {savedCourses.length === 0 ? (
@@ -141,37 +209,53 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
               <p className="text-sm mt-1">Click "Save to Plan" on any course card to add it here.</p>
             </div>
           ) : (
-            savedCourses.map(c => (
-              <div
-                key={c.sln}
-                className="bg-gray-50 rounded-xl border border-gray-200 p-4 hover:border-purple-200 transition-all group"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <span className="inline-block text-xs font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-md mb-1">
-                      {c.code}
-                    </span>
-                    <p className="text-sm font-semibold text-gray-900 leading-snug">{c.title}</p>
-                    <p className="text-xs text-gray-500 mt-1">{c.instructor} · {c.credits} cr</p>
-                    <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />{c.days} {c.time}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />{c.room}
-                      </span>
+            savedCourses.map(c => {
+              const hasConflict = conflictingSlns.has(c.sln);
+              return (
+                <div
+                  key={c.sln}
+                  className={`rounded-xl border p-4 transition-all group ${
+                    hasConflict
+                      ? 'bg-amber-50/60 border-amber-300 hover:border-amber-400'
+                      : 'bg-gray-50 border-gray-200 hover:border-purple-200'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`inline-block text-xs font-bold px-2 py-0.5 rounded-md ${
+                          hasConflict ? 'text-amber-800 bg-amber-100' : 'text-purple-700 bg-purple-100'
+                        }`}>
+                          {c.code}
+                        </span>
+                        {hasConflict && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded-full">
+                            <AlertTriangle className="w-2.5 h-2.5" /> Conflict
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm font-semibold text-gray-900 leading-snug">{c.title}</p>
+                      <p className="text-xs text-gray-500 mt-1">{c.instructor} · {c.credits} cr</p>
+                      <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />{c.days} {c.time}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />{c.room}
+                        </span>
+                      </div>
                     </div>
+                    <button
+                      onClick={() => onRemove(c.sln)}
+                      className="text-gray-300 hover:text-red-500 transition-colors flex-shrink-0 p-1 rounded-lg hover:bg-red-50"
+                      title="Remove from plan"
+                    >
+                      <BookmarkX className="w-4 h-4" />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => onRemove(c.sln)}
-                    className="text-gray-300 hover:text-red-500 transition-colors flex-shrink-0 p-1 rounded-lg hover:bg-red-50"
-                    title="Remove from plan"
-                  >
-                    <BookmarkX className="w-4 h-4" />
-                  </button>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 
