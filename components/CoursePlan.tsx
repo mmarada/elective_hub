@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Course } from '../types';
-import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle } from 'lucide-react';
+import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle, Link, Check } from 'lucide-react';
 
 interface CoursePlanProps {
   savedCourses: Course[];
@@ -148,6 +148,16 @@ function downloadIcal(courses: Course[]) {
 const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose }) => {
   const conflicts = detectConflicts(savedCourses);
   const conflictingSlns = new Set(conflicts.flatMap(c => [c.a.sln, c.b.sln]));
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyLink = () => {
+    const slns = savedCourses.map(c => c.sln).join(',');
+    const url = `${window.location.origin}${window.location.pathname}?plan=${encodeURIComponent(slns)}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   return (
     <div className="fixed inset-0 z-[60] flex justify-end">
@@ -261,8 +271,8 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
 
         {/* Export Footer */}
         {savedCourses.length > 0 && (
-          <div className="px-6 py-4 border-t border-gray-100 bg-gray-50">
-            <p className="text-xs text-gray-500 mb-3">
+          <div className="px-6 py-4 border-t border-gray-100 bg-gray-50 space-y-3">
+            <p className="text-xs text-gray-500">
               Exports recurring weekly events for Spring 2026 (Mar 30 – Jun 5) in iCal format. Compatible with Google Calendar, Apple Calendar, and Outlook.
             </p>
             <button
@@ -271,6 +281,17 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
             >
               <Download className="w-4 h-4" />
               Export to Calendar (.ics)
+            </button>
+            <button
+              onClick={handleCopyLink}
+              className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border transition-all ${
+                copied
+                  ? 'bg-green-50 border-green-300 text-green-700'
+                  : 'bg-white border-gray-200 text-gray-700 hover:border-purple-300 hover:text-purple-700 hover:bg-purple-50'
+              }`}
+            >
+              {copied ? <Check className="w-4 h-4" /> : <Link className="w-4 h-4" />}
+              {copied ? 'Link copied!' : 'Copy Share Link'}
             </button>
           </div>
         )}

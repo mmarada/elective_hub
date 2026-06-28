@@ -30,10 +30,28 @@ function App() {
       return [];
     }
   });
+  const [urlPlanLoaded, setUrlPlanLoaded] = useState(false);
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Load plan from ?plan=sln1,sln2 URL param once courses are available
+  useEffect(() => {
+    if (urlPlanLoaded || courses.length === 0) return;
+    const params = new URLSearchParams(window.location.search);
+    const planParam = params.get('plan');
+    if (planParam) {
+      const slns = new Set(planParam.split(',').filter(Boolean));
+      const fromUrl = courses.filter(c => slns.has(c.sln));
+      if (fromUrl.length > 0) {
+        setSavedCourses(fromUrl);
+        setIsPlanOpen(true);
+      }
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+    setUrlPlanLoaded(true);
+  }, [courses, urlPlanLoaded]);
 
   useEffect(() => {
     localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(savedCourses));
