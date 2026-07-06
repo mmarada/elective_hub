@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Course } from '../types';
-import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle, Link, Check } from 'lucide-react';
+import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle, Link, Check, List, LayoutGrid } from 'lucide-react';
 
 interface CoursePlanProps {
   savedCourses: Course[];
@@ -96,6 +96,145 @@ function detectConflicts(courses: Course[]): Conflict[] {
   return conflicts;
 }
 
+// --- Weekly Schedule Grid ---
+
+const GRID_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+const GRID_START_HOUR = 8; // 8am
+const GRID_END_HOUR = 22; // 10pm
+const HOUR_HEIGHT = 48;
+
+interface GridItem {
+  course: Course;
+  start: number;
+  end: number;
+  hasConflict: boolean;
+  col: number;
+  cols: number;
+}
+
+// Assigns non-overlapping column slots to same-day events (first-fit, clustered by overlap)
+function layoutColumns(items: Omit<GridItem, 'col' | 'cols'>[]): GridItem[] {
+  const sorted = [...items].sort((a, b) => a.start - b.start);
+  const result: GridItem[] = [];
+  let cluster: GridItem[] = [];
+  let clusterEnd = -Infinity;
+
+  const flushCluster = () => {
+    if (cluster.length === 0) return;
+    const colEnds: number[] = [];
+    for (const item of cluster) {
+      let col = colEnds.findIndex(end => end <= item.start);
+      if (col === -1) {
+        col = colEnds.length;
+        colEnds.push(item.end);
+      } else {
+        colEnds[col] = item.end;
+      }
+      item.col = col;
+    }
+    const cols = colEnds.length;
+    for (const item of cluster) item.cols = cols;
+    result.push(...cluster);
+    cluster = [];
+  };
+
+  for (const item of sorted) {
+    if (cluster.length > 0 && item.start >= clusterEnd) {
+      flushCluster();
+      clusterEnd = -Infinity;
+    }
+    cluster.push({ ...item, col: 0, cols: 1 });
+    clusterEnd = Math.max(clusterEnd, item.end);
+  }
+  flushCluster();
+  return result;
+}
+
+const ScheduleGrid: React.FC<{ courses: Course[]; conflictingSlns: Set<string> }> = ({ courses, conflictingSlns }) => {
+  const dayItems: Record<string, Omit<GridItem, 'col' | 'cols'>[]> = { Mon: [], Tue: [], Wed: [], Thu: [], Fri: [] };
+  const unscheduled: Course[] = [];
+
+  for (const c of courses) {
+    const time = parseTimeToMinutes(c.time);
+    const days = parseDaysArray(c.days).filter(d => GRID_DAYS.includes(d));
+    if (!time || days.length === 0) {
+      unscheduled.push(c);
+      continue;
+    }
+    for (const d of days) {
+      dayItems[d].push({ course: c, start: time.start, end: time.end, hasConflict: conflictingSlns.has(c.sln) });
+    }
+  }
+
+  const gridHeight = (GRID_END_HOUR - GRID_START_HOUR) * HOUR_HEIGHT;
+  const hours = Array.from({ length: GRID_END_HOUR - GRID_START_HOUR + 1 }, (_, i) => GRID_START_HOUR + i);
+  const formatHour = (h: number) => `${h % 12 === 0 ? 12 : h % 12}${h < 12 ? 'am' : 'pm'}`;
+
+  return (
+    <div>
+      <div className="flex text-xs">
+        <div className="w-9 flex-shrink-0" />
+        {GRID_DAYS.map(d => (
+          <div key={d} className="flex-1 text-center font-bold text-gray-600 pb-1">{d}</div>
+        ))}
+      </div>
+      <div className="flex border-t border-gray-200" style={{ height: gridHeight }}>
+        <div className="w-9 flex-shrink-0 relative">
+          {hours.map(h => (
+            <div
+              key={h}
+              className="absolute right-1 text-[9px] text-gray-400 -translate-y-1/2"
+              style={{ top: (h - GRID_START_HOUR) * HOUR_HEIGHT }}
+            >
+              {formatHour(h)}
+            </div>
+          ))}
+        </div>
+        {GRID_DAYS.map(day => {
+          const items = layoutColumns(dayItems[day]);
+          return (
+            <div key={day} className="flex-1 relative border-l border-gray-100">
+              {hours.map(h => (
+                <div
+                  key={h}
+                  className="absolute left-0 right-0 border-t border-gray-100"
+                  style={{ top: (h - GRID_START_HOUR) * HOUR_HEIGHT }}
+                />
+              ))}
+              {items.map((item, idx) => {
+                const top = Math.max(0, ((item.start - GRID_START_HOUR * 60) / 60) * HOUR_HEIGHT);
+                const height = Math.max(20, ((item.end - item.start) / 60) * HOUR_HEIGHT - 2);
+                const widthPct = 100 / item.cols;
+                const leftPct = item.col * widthPct;
+                return (
+                  <div
+                    key={`${item.course.sln}-${idx}`}
+                    className={`absolute rounded-md border px-1.5 py-1 overflow-hidden text-[10px] leading-tight ${
+                      item.hasConflict
+                        ? 'bg-red-100 border-red-400 text-red-800'
+                        : 'bg-purple-100 border-purple-300 text-purple-800'
+                    }`}
+                    style={{ top, height, left: `${leftPct}%`, width: `calc(${widthPct}% - 3px)` }}
+                    title={`${item.course.code} · ${item.course.time}`}
+                  >
+                    <p className="font-bold truncate">{item.course.code}</p>
+                    <p className="truncate">{item.course.time}</p>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+      {unscheduled.length > 0 && (
+        <p className="mt-3 text-[11px] text-gray-400">
+          {unscheduled.length} course{unscheduled.length > 1 ? 's' : ''} without a fixed time ({unscheduled.map(c => c.code).join(', ')}) not shown on the grid.
+        </p>
+      )}
+    </div>
+  );
+};
+
 function buildIcal(courses: Course[]): string {
   const lines: string[] = [
     'BEGIN:VCALENDAR',
@@ -149,6 +288,7 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
   const conflicts = detectConflicts(savedCourses);
   const conflictingSlns = new Set(conflicts.flatMap(c => [c.a.sln, c.b.sln]));
   const [copied, setCopied] = useState(false);
+  const [view, setView] = useState<'list' | 'grid'>('list');
 
   const handleCopyLink = () => {
     const slns = savedCourses.map(c => c.sln).join(',');
@@ -188,6 +328,28 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
           </button>
         </div>
 
+        {/* View Toggle */}
+        {savedCourses.length > 0 && (
+          <div className="flex gap-1 mx-6 mt-4 p-1 bg-gray-100 rounded-lg w-fit">
+            <button
+              onClick={() => setView('list')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                view === 'list' ? 'bg-white text-purple-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <List className="w-3.5 h-3.5" /> List
+            </button>
+            <button
+              onClick={() => setView('grid')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                view === 'grid' ? 'bg-white text-purple-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <LayoutGrid className="w-3.5 h-3.5" /> Grid
+            </button>
+          </div>
+        )}
+
         {/* Conflict Warning Banner */}
         {conflicts.length > 0 && (
           <div className="mx-6 mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3">
@@ -210,7 +372,7 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
           </div>
         )}
 
-        {/* Course List */}
+        {/* Course List / Grid */}
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
           {savedCourses.length === 0 ? (
             <div className="text-center py-20 text-gray-400">
@@ -218,6 +380,8 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
               <p className="font-semibold text-gray-500">No courses saved yet</p>
               <p className="text-sm mt-1">Click "Save to Plan" on any course card to add it here.</p>
             </div>
+          ) : view === 'grid' ? (
+            <ScheduleGrid courses={savedCourses} conflictingSlns={conflictingSlns} />
           ) : (
             savedCourses.map(c => {
               const hasConflict = conflictingSlns.has(c.sln);
