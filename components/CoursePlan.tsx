@@ -150,7 +150,7 @@ function layoutColumns(items: Omit<GridItem, 'col' | 'cols'>[]): GridItem[] {
   return result;
 }
 
-const ScheduleGrid: React.FC<{ courses: Course[]; conflictingSlns: Set<string> }> = ({ courses, conflictingSlns }) => {
+const ScheduleGrid: React.FC<{ courses: Course[]; conflictingSlns: Set<string>; onRemove: (sln: string) => void }> = ({ courses, conflictingSlns, onRemove }) => {
   const dayItems: Record<string, Omit<GridItem, 'col' | 'cols'>[]> = { Mon: [], Tue: [], Wed: [], Thu: [], Fri: [] };
   const unscheduled: Course[] = [];
 
@@ -209,15 +209,25 @@ const ScheduleGrid: React.FC<{ courses: Course[]; conflictingSlns: Set<string> }
                 return (
                   <div
                     key={`${item.course.sln}-${idx}`}
-                    className={`absolute rounded-md border px-1.5 py-1 overflow-hidden text-[10px] leading-tight ${
+                    className={`absolute rounded-md border px-1.5 py-1 overflow-hidden text-[10px] leading-tight group/block ${
                       item.hasConflict
                         ? 'bg-red-100 border-red-400 text-red-800'
                         : 'bg-purple-100 border-purple-300 text-purple-800'
                     }`}
                     style={{ top, height, left: `${leftPct}%`, width: `calc(${widthPct}% - 3px)` }}
-                    title={`${item.course.code} · ${item.course.time}`}
+                    title={`${item.course.code} · ${item.course.time} · click × to remove`}
                   >
-                    <p className="font-bold truncate">{item.course.code}</p>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onRemove(item.course.sln);
+                      }}
+                      className="absolute top-0.5 right-0.5 w-3.5 h-3.5 rounded-full flex items-center justify-center opacity-0 group-hover/block:opacity-100 transition-opacity bg-black/10 hover:bg-black/25"
+                      title={`Remove ${item.course.code} from plan`}
+                    >
+                      <X className="w-2.5 h-2.5" />
+                    </button>
+                    <p className="font-bold truncate pr-3">{item.course.code}</p>
                     <p className="truncate">{item.course.time}</p>
                   </div>
                 );
@@ -381,7 +391,7 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
               <p className="text-sm mt-1">Click "Save to Plan" on any course card to add it here.</p>
             </div>
           ) : view === 'grid' ? (
-            <ScheduleGrid courses={savedCourses} conflictingSlns={conflictingSlns} />
+            <ScheduleGrid courses={savedCourses} conflictingSlns={conflictingSlns} onRemove={onRemove} />
           ) : (
             savedCourses.map(c => {
               const hasConflict = conflictingSlns.has(c.sln);
