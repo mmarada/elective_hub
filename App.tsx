@@ -372,7 +372,9 @@ function App() {
       {isPlanOpen && (
         <CoursePlan
           savedCourses={savedCourses}
+          allCourses={courses}
           onRemove={removeSavedCourse}
+          onAdd={toggleSaveCourse}
           onClose={() => setIsPlanOpen(false)}
         />
       )}

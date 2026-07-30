@@ -1,11 +1,13 @@
 
 import React, { useState } from 'react';
 import { Course } from '../types';
-import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle, Link, Check, List, LayoutGrid } from 'lucide-react';
+import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle, Link, Check, List, LayoutGrid, Plus, Search } from 'lucide-react';
 
 interface CoursePlanProps {
   savedCourses: Course[];
+  allCourses: Course[];
   onRemove: (sln: string) => void;
+  onAdd: (course: Course) => void;
   onClose: () => void;
 }
 
@@ -294,11 +296,12 @@ function downloadIcal(courses: Course[]) {
   URL.revokeObjectURL(url);
 }
 
-const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose }) => {
+const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRemove, onAdd, onClose }) => {
   const conflicts = detectConflicts(savedCourses);
   const conflictingSlns = new Set(conflicts.flatMap(c => [c.a.sln, c.b.sln]));
   const [copied, setCopied] = useState(false);
   const [view, setView] = useState<'list' | 'grid'>('list');
+  const [addQuery, setAddQuery] = useState('');
 
   const handleCopyLink = () => {
     const slns = savedCourses.map(c => c.sln).join(',');
@@ -307,6 +310,22 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
+  };
+
+  const savedSlns = new Set(savedCourses.map(c => c.sln));
+  const addQueryTrimmed = addQuery.trim().toLowerCase();
+  const addResults = addQueryTrimmed.length === 0 ? [] : allCourses
+    .filter(c => !savedSlns.has(c.sln))
+    .filter(c =>
+      c.code.toLowerCase().includes(addQueryTrimmed) ||
+      c.title.toLowerCase().includes(addQueryTrimmed) ||
+      c.instructor.toLowerCase().includes(addQueryTrimmed)
+    )
+    .slice(0, 6);
+
+  const handleAdd = (course: Course) => {
+    onAdd(course);
+    setAddQuery('');
   };
 
   return (
@@ -391,7 +410,42 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, onRemove, onClose
               <p className="text-sm mt-1">Click "Save to Plan" on any course card to add it here.</p>
             </div>
           ) : view === 'grid' ? (
-            <ScheduleGrid courses={savedCourses} conflictingSlns={conflictingSlns} onRemove={onRemove} />
+            <div>
+              <div className="relative mb-3">
+                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                  <Search className="w-3.5 h-3.5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  value={addQuery}
+                  onChange={(e) => setAddQuery(e.target.value)}
+                  placeholder="Add a course to the grid…"
+                  className="w-full pl-8 pr-3 py-2 text-xs border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                />
+                {addQueryTrimmed.length > 0 && (
+                  <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                    {addResults.length === 0 ? (
+                      <p className="px-3 py-2 text-xs text-gray-400">No matching courses to add.</p>
+                    ) : (
+                      addResults.map(c => (
+                        <button
+                          key={c.sln}
+                          onClick={() => handleAdd(c)}
+                          className="w-full flex items-center justify-between gap-2 px-3 py-2 text-left hover:bg-purple-50 transition-colors border-b border-gray-50 last:border-b-0"
+                        >
+                          <div className="min-w-0">
+                            <p className="text-xs font-bold text-purple-800">{c.code} <span className="font-normal text-gray-600">· {c.title}</span></p>
+                            <p className="text-[10px] text-gray-400">{c.days} {c.time}</p>
+                          </div>
+                          <Plus className="w-3.5 h-3.5 text-purple-600 flex-shrink-0" />
+                        </button>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+              <ScheduleGrid courses={savedCourses} conflictingSlns={conflictingSlns} onRemove={onRemove} />
+            </div>
           ) : (
             savedCourses.map(c => {
               const hasConflict = conflictingSlns.has(c.sln);
