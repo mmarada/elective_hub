@@ -77,6 +77,19 @@ interface Conflict {
   sharedDays: string[];
 }
 
+function findConflictingCourses(candidate: Course, existing: Course[]): Course[] {
+  const candidateDays = parseDaysArray(candidate.days);
+  const candidateTime = parseTimeToMinutes(candidate.time);
+  if (candidateDays.length === 0 || !candidateTime) return [];
+  return existing.filter(c => {
+    const sharedDays = parseDaysArray(c.days).filter(d => candidateDays.includes(d));
+    if (sharedDays.length === 0) return false;
+    const time = parseTimeToMinutes(c.time);
+    if (!time) return false;
+    return candidateTime.start < time.end && time.start < candidateTime.end;
+  });
+}
+
 function detectConflicts(courses: Course[]): Conflict[] {
   const conflicts: Conflict[] = [];
   for (let i = 0; i < courses.length; i++) {
@@ -427,19 +440,28 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
                     {addResults.length === 0 ? (
                       <p className="px-3 py-2 text-xs text-gray-400">No matching courses to add.</p>
                     ) : (
-                      addResults.map(c => (
-                        <button
-                          key={c.sln}
-                          onClick={() => handleAdd(c)}
-                          className="w-full flex items-center justify-between gap-2 px-3 py-2 text-left hover:bg-purple-50 transition-colors border-b border-gray-50 last:border-b-0"
-                        >
-                          <div className="min-w-0">
-                            <p className="text-xs font-bold text-purple-800">{c.code} <span className="font-normal text-gray-600">· {c.title}</span></p>
-                            <p className="text-[10px] text-gray-400">{c.days} {c.time}</p>
-                          </div>
-                          <Plus className="w-3.5 h-3.5 text-purple-600 flex-shrink-0" />
-                        </button>
-                      ))
+                      addResults.map(c => {
+                        const addConflicts = findConflictingCourses(c, savedCourses);
+                        return (
+                          <button
+                            key={c.sln}
+                            onClick={() => handleAdd(c)}
+                            className="w-full flex items-center justify-between gap-2 px-3 py-2 text-left hover:bg-purple-50 transition-colors border-b border-gray-50 last:border-b-0"
+                          >
+                            <div className="min-w-0">
+                              <p className="text-xs font-bold text-purple-800">{c.code} <span className="font-normal text-gray-600">· {c.title}</span></p>
+                              <p className="text-[10px] text-gray-400">{c.days} {c.time}</p>
+                              {addConflicts.length > 0 && (
+                                <p className="flex items-center gap-1 text-[10px] font-semibold text-amber-600 mt-0.5">
+                                  <AlertTriangle className="w-2.5 h-2.5 flex-shrink-0" />
+                                  Conflicts with {addConflicts.map(x => x.code).join(', ')}
+                                </p>
+                              )}
+                            </div>
+                            <Plus className={`w-3.5 h-3.5 flex-shrink-0 ${addConflicts.length > 0 ? 'text-amber-500' : 'text-purple-600'}`} />
+                          </button>
+                        );
+                      })
                     )}
                   </div>
                 )}
