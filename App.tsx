@@ -343,6 +343,7 @@ function App() {
                 onReviewSubmitted={fetchData}
                 isSaved={savedCourses.some(c => c.sln === course.sln)}
                 onToggleSave={toggleSaveCourse}
+                savedCourses={savedCourses}
               />
             ))
           ) : (

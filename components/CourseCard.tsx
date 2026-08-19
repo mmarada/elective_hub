@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { Course, Review } from '../types';
-import { ChevronDown, ChevronUp, Clock, MapPin, Calendar, BookOpen, GraduationCap, Mail, Info, FileText, CheckCircle, Book, Star, Layers, FileImage, FileInput, ExternalLink, Bookmark, BookmarkCheck } from 'lucide-react';
+import { ChevronDown, ChevronUp, Clock, MapPin, Calendar, BookOpen, GraduationCap, Mail, Info, FileText, CheckCircle, Book, Star, Layers, FileImage, FileInput, ExternalLink, Bookmark, BookmarkCheck, AlertTriangle } from 'lucide-react';
 import ReviewList from './ReviewList';
 import ReviewForm from './ReviewForm';
 import { courseDetails } from '../data';
 import { supabase } from '../supabaseClient';
+import { findConflictingCourses } from '../utils/scheduleConflicts';
 
 interface CourseCardProps {
   course: Course;
@@ -13,11 +14,14 @@ interface CourseCardProps {
   onReviewSubmitted?: () => void;
   isSaved?: boolean;
   onToggleSave?: (course: Course) => void;
+  savedCourses?: Course[];
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmitted, isSaved = false, onToggleSave }) => {
+const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmitted, isSaved = false, onToggleSave, savedCourses = [] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'syllabus' | 'reviews'>('overview');
+
+  const saveConflicts = isSaved ? [] : findConflictingCourses(course, savedCourses.filter(c => c.sln !== course.sln));
 
   // Filter reviews to match this specific course context better if it's a generic ID
   // For special topics (like ENTRE 579), we try to match the title or instructor if possible
@@ -127,14 +131,22 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmit
         
         <div className="mt-5 flex justify-between items-center">
           {onToggleSave && (
-            <button
-              onClick={(e) => { e.stopPropagation(); onToggleSave(course); }}
-              className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all ${isSaved ? 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200' : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200'}`}
-              title={isSaved ? 'Remove from plan' : 'Save to plan'}
-            >
-              {isSaved ? <BookmarkCheck className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
-              {isSaved ? 'Saved to Plan' : 'Save to Plan'}
-            </button>
+            <div className="flex flex-col items-start gap-1.5">
+              <button
+                onClick={(e) => { e.stopPropagation(); onToggleSave(course); }}
+                className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all ${isSaved ? 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200' : saveConflicts.length > 0 ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100' : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200'}`}
+                title={isSaved ? 'Remove from plan' : 'Save to plan'}
+              >
+                {isSaved ? <BookmarkCheck className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
+                {isSaved ? 'Saved to Plan' : 'Save to Plan'}
+              </button>
+              {saveConflicts.length > 0 && (
+                <span className="flex items-center gap-1 text-[11px] font-medium text-amber-700" onClick={(e) => e.stopPropagation()}>
+                  <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                  Conflicts with {saveConflicts.map(c => c.code).join(', ')}
+                </span>
+              )}
+            </div>
           )}
           <div className={`p-1 rounded-full transition-colors duration-300 ${onToggleSave ? '' : 'mx-auto'} ${isExpanded ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-400 group-hover:bg-purple-50 group-hover:text-purple-400'}`}>
               {isExpanded ? (
