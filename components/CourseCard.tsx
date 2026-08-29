@@ -141,10 +141,24 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmit
                 {isSaved ? 'Saved to Plan' : 'Save to Plan'}
               </button>
               {saveConflicts.length > 0 && (
-                <span className="flex items-center gap-1 text-[11px] font-medium text-amber-700" onClick={(e) => e.stopPropagation()}>
-                  <AlertTriangle className="w-3 h-3 flex-shrink-0" />
-                  Conflicts with {saveConflicts.map(c => c.code).join(', ')}
-                </span>
+                <div className="text-[11px] font-medium text-amber-700" onClick={(e) => e.stopPropagation()}>
+                  <span className="flex items-center gap-1">
+                    <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                    Conflicts with{saveConflicts.length === 1 ? '' : ':'}
+                    {saveConflicts.length === 1 && (
+                      <span>{' '}{saveConflicts[0].code} · {saveConflicts[0].days} {saveConflicts[0].time}</span>
+                    )}
+                  </span>
+                  {saveConflicts.length > 1 && (
+                    <ul className="mt-0.5 ml-4 space-y-0.5">
+                      {saveConflicts.map(c => (
+                        <li key={c.sln}>
+                          <span className="font-semibold">{c.code}</span> · {c.days} {c.time}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               )}
             </div>
           )}

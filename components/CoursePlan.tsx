@@ -426,10 +426,17 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
                               <p className="text-xs font-bold text-purple-800">{c.code} <span className="font-normal text-gray-600">· {c.title}</span></p>
                               <p className="text-[10px] text-gray-400">{c.days} {c.time}</p>
                               {addConflicts.length > 0 && (
-                                <p className="flex items-center gap-1 text-[10px] font-semibold text-amber-600 mt-0.5">
-                                  <AlertTriangle className="w-2.5 h-2.5 flex-shrink-0" />
-                                  Conflicts with {addConflicts.map(x => x.code).join(', ')}
-                                </p>
+                                <div className="text-[10px] font-semibold text-amber-600 mt-0.5">
+                                  <p className="flex items-center gap-1">
+                                    <AlertTriangle className="w-2.5 h-2.5 flex-shrink-0" />
+                                    Conflicts with:
+                                  </p>
+                                  <ul className="ml-3.5 font-medium">
+                                    {addConflicts.map(x => (
+                                      <li key={x.sln}>{x.code} · {x.days} {x.time}</li>
+                                    ))}
+                                  </ul>
+                                </div>
                               )}
                             </div>
                             <Plus className={`w-3.5 h-3.5 flex-shrink-0 ${addConflicts.length > 0 ? 'text-amber-500' : 'text-purple-600'}`} />
