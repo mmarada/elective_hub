@@ -62,6 +62,19 @@ interface Conflict {
   a: Course;
   b: Course;
   sharedDays: string[];
+  overlapStart: number;
+  overlapEnd: number;
+}
+
+// Formats minutes-since-midnight back to the same "H:MM" convention the source data uses
+function formatMinutes(mins: number): string {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return `${h}:${String(m).padStart(2, '0')}`;
+}
+
+function formatOverlapWindow(start: number, end: number): string {
+  return `${formatMinutes(start)}-${formatMinutes(end)}`;
 }
 
 function detectConflicts(courses: Course[]): Conflict[] {
@@ -79,7 +92,15 @@ function detectConflicts(courses: Course[]): Conflict[] {
       if (!timeA || !timeB) continue;
       // Overlap: not (A ends before B starts or B ends before A starts)
       const overlaps = timeA.start < timeB.end && timeB.start < timeA.end;
-      if (overlaps) conflicts.push({ a, b, sharedDays });
+      if (overlaps) {
+        conflicts.push({
+          a,
+          b,
+          sharedDays,
+          overlapStart: Math.max(timeA.start, timeB.start),
+          overlapEnd: Math.min(timeA.end, timeB.end),
+        });
+      }
     }
   }
   return conflicts;
@@ -380,6 +401,7 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
                     <li key={i} className="text-xs text-amber-700">
                       <span className="font-semibold">{c.a.code}</span> &amp; <span className="font-semibold">{c.b.code}</span>
                       {' '}overlap on <span className="font-semibold">{c.sharedDays.join(', ')}</span>
+                      {' '}— both meet <span className="font-semibold">{formatOverlapWindow(c.overlapStart, c.overlapEnd)}</span>
                     </li>
                   ))}
                 </ul>
