@@ -26,3 +26,21 @@ export function findConflictingCourses(candidate: Course, existing: Course[]): C
     return candidateTime.start < time.end && time.start < candidateTime.end;
   });
 }
+
+// Other scheduled sections of the same course (same code AND title, since special-topics
+// codes like FIN 579 reuse one code across unrelated courses) that would not conflict with
+// the rest of the plan once `course` is swapped out.
+export function findAlternateSections(course: Course, allCourses: Course[], plan: Course[]): Course[] {
+  const rest = plan.filter(c => c.sln !== course.sln);
+  const planSlns = new Set(plan.map(c => c.sln));
+  return allCourses.filter(c =>
+    c.sln !== course.sln &&
+    !planSlns.has(c.sln) &&
+    c.code === course.code &&
+    c.title === course.title &&
+    c.quarter === course.quarter &&
+    parseDaysArray(c.days).length > 0 &&
+    parseTimeToMinutes(c.time) !== null &&
+    findConflictingCourses(c, rest).length === 0
+  );
+}

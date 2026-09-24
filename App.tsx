@@ -69,6 +69,11 @@ function App() {
     setSavedCourses(prev => prev.filter(c => c.sln !== sln));
   };
 
+  // Swap in place so the plan keeps its order (remove + add would push the new section to the end)
+  const replaceSavedCourse = (oldSln: string, next: Course) => {
+    setSavedCourses(prev => prev.map(c => (c.sln === oldSln ? next : c)));
+  };
+
   const fetchData = async () => {
     if (!supabase) {
       setLoading(false);
@@ -376,6 +381,7 @@ function App() {
           allCourses={courses}
           onRemove={removeSavedCourse}
           onAdd={toggleSaveCourse}
+          onReplace={replaceSavedCourse}
           onClose={() => setIsPlanOpen(false)}
         />
       )}

@@ -1,14 +1,15 @@
 
 import React, { useState } from 'react';
 import { Course } from '../types';
-import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle, Link, Check, List, LayoutGrid, Plus, Search } from 'lucide-react';
-import { parseDaysArray, parseTimeToMinutes, findConflictingCourses } from '../utils/scheduleConflicts';
+import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle, Link, Check, List, LayoutGrid, Plus, Search, ArrowRightLeft } from 'lucide-react';
+import { parseDaysArray, parseTimeToMinutes, findConflictingCourses, findAlternateSections } from '../utils/scheduleConflicts';
 
 interface CoursePlanProps {
   savedCourses: Course[];
   allCourses: Course[];
   onRemove: (sln: string) => void;
   onAdd: (course: Course) => void;
+  onReplace: (oldSln: string, next: Course) => void;
   onClose: () => void;
 }
 
@@ -304,7 +305,7 @@ function downloadIcal(courses: Course[]) {
   URL.revokeObjectURL(url);
 }
 
-const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRemove, onAdd, onClose }) => {
+const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRemove, onAdd, onReplace, onClose }) => {
   const conflicts = detectConflicts(savedCourses);
   const conflictingSlns = new Set(conflicts.flatMap(c => [c.a.sln, c.b.sln]));
   const [copied, setCopied] = useState(false);
@@ -397,13 +398,33 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
                   {conflicts.length} schedule conflict{conflicts.length > 1 ? 's' : ''} detected
                 </p>
                 <ul className="mt-1 space-y-0.5">
-                  {conflicts.map((c, i) => (
-                    <li key={i} className="text-xs text-amber-700">
-                      <span className="font-semibold">{c.a.code}</span> &amp; <span className="font-semibold">{c.b.code}</span>
-                      {' '}overlap on <span className="font-semibold">{c.sharedDays.join(', ')}</span>
-                      {' '}— both meet <span className="font-semibold">{formatOverlapWindow(c.overlapStart, c.overlapEnd)}</span>
-                    </li>
-                  ))}
+                  {conflicts.map((c, i) => {
+                    const fixes = [c.a, c.b].flatMap(course =>
+                      findAlternateSections(course, allCourses, savedCourses).map(alt => ({ course, alt }))
+                    );
+                    return (
+                      <li key={i} className="text-xs text-amber-700">
+                        <span className="font-semibold">{c.a.code}</span> &amp; <span className="font-semibold">{c.b.code}</span>
+                        {' '}overlap on <span className="font-semibold">{c.sharedDays.join(', ')}</span>
+                        {' '}— both meet <span className="font-semibold">{formatOverlapWindow(c.overlapStart, c.overlapEnd)}</span>
+                        {fixes.length > 0 && (
+                          <div className="mt-1 flex flex-wrap gap-1">
+                            {fixes.map(({ course, alt }) => (
+                              <button
+                                key={`${course.sln}-${alt.sln}`}
+                                onClick={() => onReplace(course.sln, alt)}
+                                className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold text-amber-800 bg-white border border-amber-300 rounded-full hover:bg-amber-100 transition-colors"
+                                title={`Replace ${course.code} (${course.section}, SLN ${course.sln}) with section ${alt.section}, SLN ${alt.sln}`}
+                              >
+                                <ArrowRightLeft className="w-2.5 h-2.5" />
+                                Switch {course.code} to {alt.days} {alt.time}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
