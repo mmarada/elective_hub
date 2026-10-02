@@ -349,6 +349,7 @@ function App() {
                 isSaved={savedCourses.some(c => c.sln === course.sln)}
                 onToggleSave={toggleSaveCourse}
                 savedCourses={savedCourses}
+                allCourses={courses}
               />
             ))
           ) : (

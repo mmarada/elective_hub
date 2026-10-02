@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { Course, Review } from '../types';
-import { ChevronDown, ChevronUp, Clock, MapPin, Calendar, BookOpen, GraduationCap, Mail, Info, FileText, CheckCircle, Book, Star, Layers, FileImage, FileInput, ExternalLink, Bookmark, BookmarkCheck, AlertTriangle } from 'lucide-react';
+import { ChevronDown, ChevronUp, Clock, MapPin, Calendar, BookOpen, GraduationCap, Mail, Info, FileText, CheckCircle, Book, Star, Layers, FileImage, FileInput, ExternalLink, Bookmark, BookmarkCheck, AlertTriangle, ArrowRightLeft } from 'lucide-react';
 import ReviewList from './ReviewList';
 import ReviewForm from './ReviewForm';
 import { courseDetails } from '../data';
 import { supabase } from '../supabaseClient';
-import { findConflictingCourses } from '../utils/scheduleConflicts';
+import { findConflictingCourses, findAlternateSections } from '../utils/scheduleConflicts';
 
 interface CourseCardProps {
   course: Course;
@@ -15,13 +15,16 @@ interface CourseCardProps {
   isSaved?: boolean;
   onToggleSave?: (course: Course) => void;
   savedCourses?: Course[];
+  allCourses?: Course[];
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmitted, isSaved = false, onToggleSave, savedCourses = [] }) => {
+const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmitted, isSaved = false, onToggleSave, savedCourses = [], allCourses = [] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'syllabus' | 'reviews'>('overview');
 
   const saveConflicts = isSaved ? [] : findConflictingCourses(course, savedCourses.filter(c => c.sln !== course.sln));
+  // Only worth computing when this section would clash: offer other sections that fit the plan as-is
+  const saveAlternates = saveConflicts.length > 0 ? findAlternateSections(course, allCourses, savedCourses) : [];
 
   // Filter reviews to match this specific course context better if it's a generic ID
   // For special topics (like ENTRE 579), we try to match the title or instructor if possible
@@ -157,6 +160,21 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmit
                         </li>
                       ))}
                     </ul>
+                  )}
+                  {saveAlternates.length > 0 && (
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                      {saveAlternates.map(alt => (
+                        <button
+                          key={alt.sln}
+                          onClick={() => onToggleSave(alt)}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors"
+                          title={`Save section ${alt.section} (SLN ${alt.sln}) instead; it fits your current plan`}
+                        >
+                          <ArrowRightLeft className="w-3 h-3" />
+                          Save section {alt.section} instead · {alt.days} {alt.time}
+                        </button>
+                      ))}
+                    </div>
                   )}
                 </div>
               )}
