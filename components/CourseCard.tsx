@@ -7,6 +7,7 @@ import ReviewForm from './ReviewForm';
 import { courseDetails } from '../data';
 import { supabase } from '../supabaseClient';
 import { findConflictingCourses, findAlternateSections } from '../utils/scheduleConflicts';
+import { courseKey } from '../utils/courseKey';
 
 interface CourseCardProps {
   course: Course;
@@ -22,7 +23,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmit
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'syllabus' | 'reviews'>('overview');
 
-  const saveConflicts = isSaved ? [] : findConflictingCourses(course, savedCourses.filter(c => c.sln !== course.sln));
+  const saveConflicts = isSaved ? [] : findConflictingCourses(course, savedCourses.filter(c => courseKey(c) !== courseKey(course)));
   // Only worth computing when this section would clash: offer other sections that fit the plan as-is
   const saveAlternates = saveConflicts.length > 0 ? findAlternateSections(course, allCourses, savedCourses) : [];
 
@@ -155,7 +156,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmit
                   {saveConflicts.length > 1 && (
                     <ul className="mt-0.5 ml-4 space-y-0.5">
                       {saveConflicts.map(c => (
-                        <li key={c.sln}>
+                        <li key={courseKey(c)}>
                           <span className="font-semibold">{c.code}</span> · {c.days} {c.time}
                         </li>
                       ))}
@@ -165,7 +166,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, reviews, onReviewSubmit
                     <div className="mt-1.5 flex flex-wrap gap-1.5">
                       {saveAlternates.map(alt => (
                         <button
-                          key={alt.sln}
+                          key={courseKey(alt)}
                           onClick={() => onToggleSave(alt)}
                           className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors"
                           title={`Save section ${alt.section} (SLN ${alt.sln}) instead; it fits your current plan`}

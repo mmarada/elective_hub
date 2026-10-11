@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 import { Course } from '../types';
 import { X, Calendar, Download, BookmarkX, Clock, MapPin, AlertTriangle, Link, Check, List, LayoutGrid, Plus, Search, ArrowRightLeft } from 'lucide-react';
 import { parseDaysArray, parseTimeToMinutes, findConflictingCourses, findAlternateSections } from '../utils/scheduleConflicts';
+import { courseKey } from '../utils/courseKey';
 
 interface CoursePlanProps {
   savedCourses: Course[];
   allCourses: Course[];
-  onRemove: (sln: string) => void;
+  onRemove: (key: string) => void;
   onAdd: (course: Course) => void;
-  onReplace: (oldSln: string, next: Course) => void;
+  onReplace: (oldKey: string, next: Course) => void;
   onClose: () => void;
 }
 
@@ -53,8 +54,12 @@ function parseTime(time: string): { start: string; end: string } {
   return { start: toHHMM(rawStart.trim()), end: toHHMM(rawEnd.trim()) };
 }
 
+function isScheduled(course: Course): boolean {
+  return parseDaysArray(course.days).some(d => d in DAY_TO_ICAL) && parseTimeToMinutes(course.time) !== null;
+}
+
 function uid(course: Course): string {
-  return `${course.sln}-${course.code.replace(/\s/g, '')}-elective-hub@uw.edu`;
+  return `${courseKey(course)}-${course.code.replace(/\s/g, '')}-elective-hub@uw.edu`;
 }
 
 // --- Conflict Detection ---
@@ -161,7 +166,7 @@ function layoutColumns(items: Omit<GridItem, 'col' | 'cols'>[]): GridItem[] {
   return result;
 }
 
-const ScheduleGrid: React.FC<{ courses: Course[]; conflictingSlns: Set<string>; onRemove: (sln: string) => void }> = ({ courses, conflictingSlns, onRemove }) => {
+const ScheduleGrid: React.FC<{ courses: Course[]; conflictingKeys: Set<string>; onRemove: (key: string) => void }> = ({ courses, conflictingKeys, onRemove }) => {
   const dayItems: Record<string, Omit<GridItem, 'col' | 'cols'>[]> = { Mon: [], Tue: [], Wed: [], Thu: [], Fri: [] };
   const unscheduled: Course[] = [];
 
@@ -173,7 +178,7 @@ const ScheduleGrid: React.FC<{ courses: Course[]; conflictingSlns: Set<string>; 
       continue;
     }
     for (const d of days) {
-      dayItems[d].push({ course: c, start: time.start, end: time.end, hasConflict: conflictingSlns.has(c.sln) });
+      dayItems[d].push({ course: c, start: time.start, end: time.end, hasConflict: conflictingKeys.has(courseKey(c)) });
     }
   }
 
@@ -219,7 +224,7 @@ const ScheduleGrid: React.FC<{ courses: Course[]; conflictingSlns: Set<string>; 
                 const leftPct = item.col * widthPct;
                 return (
                   <div
-                    key={`${item.course.sln}-${idx}`}
+                    key={`${courseKey(item.course)}-${idx}`}
                     className={`absolute rounded-md border px-1.5 py-1 overflow-hidden text-[10px] leading-tight group/block ${
                       item.hasConflict
                         ? 'bg-red-100 border-red-400 text-red-800'
@@ -231,7 +236,7 @@ const ScheduleGrid: React.FC<{ courses: Course[]; conflictingSlns: Set<string>; 
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        onRemove(item.course.sln);
+                        onRemove(courseKey(item.course));
                       }}
                       className="absolute top-0.5 right-0.5 w-3.5 h-3.5 rounded-full flex items-center justify-center opacity-0 group-hover/block:opacity-100 transition-opacity bg-black/10 hover:bg-black/25"
                       title={`Remove ${item.course.code} from plan`}
@@ -267,7 +272,8 @@ function buildIcal(courses: Course[]): string {
     'X-WR-TIMEZONE:America/Los_Angeles',
   ];
 
-  for (const c of courses) {
+  // Catalog rows have days/time "TBD"; parseTime would throw on them, and there is no meeting to put on a calendar
+  for (const c of courses.filter(isScheduled)) {
     const { icalDays, firstDate } = parseDays(c.days);
     const { start, end } = parseTime(c.time);
     const dtStart = `${firstDate}T${start}00`;
@@ -307,24 +313,25 @@ function downloadIcal(courses: Course[]) {
 
 const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRemove, onAdd, onReplace, onClose }) => {
   const conflicts = detectConflicts(savedCourses);
-  const conflictingSlns = new Set(conflicts.flatMap(c => [c.a.sln, c.b.sln]));
+  const conflictingKeys = new Set(conflicts.flatMap(c => [courseKey(c.a), courseKey(c.b)]));
   const [copied, setCopied] = useState(false);
   const [view, setView] = useState<'list' | 'grid'>('list');
   const [addQuery, setAddQuery] = useState('');
 
   const handleCopyLink = () => {
-    const slns = savedCourses.map(c => c.sln).join(',');
-    const url = `${window.location.origin}${window.location.pathname}?plan=${encodeURIComponent(slns)}`;
+    const keys = savedCourses.map(courseKey).join(',');
+    const url = `${window.location.origin}${window.location.pathname}?plan=${encodeURIComponent(keys)}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
   };
 
-  const savedSlns = new Set(savedCourses.map(c => c.sln));
+  const savedKeys = new Set(savedCourses.map(courseKey));
+  const unscheduledCount = savedCourses.filter(c => !isScheduled(c)).length;
   const addQueryTrimmed = addQuery.trim().toLowerCase();
   const addResults = addQueryTrimmed.length === 0 ? [] : allCourses
-    .filter(c => !savedSlns.has(c.sln))
+    .filter(c => !savedKeys.has(courseKey(c)))
     .filter(c =>
       c.code.toLowerCase().includes(addQueryTrimmed) ||
       c.title.toLowerCase().includes(addQueryTrimmed) ||
@@ -411,8 +418,8 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
                           <div className="mt-1 flex flex-wrap gap-1">
                             {fixes.map(({ course, alt }) => (
                               <button
-                                key={`${course.sln}-${alt.sln}`}
-                                onClick={() => onReplace(course.sln, alt)}
+                                key={`${courseKey(course)}-${courseKey(alt)}`}
+                                onClick={() => onReplace(courseKey(course), alt)}
                                 className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold text-amber-800 bg-white border border-amber-300 rounded-full hover:bg-amber-100 transition-colors"
                                 title={`Replace ${course.code} (${course.section}, SLN ${course.sln}) with section ${alt.section}, SLN ${alt.sln}`}
                               >
@@ -461,7 +468,7 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
                         const addConflicts = findConflictingCourses(c, savedCourses);
                         return (
                           <button
-                            key={c.sln}
+                            key={courseKey(c)}
                             onClick={() => handleAdd(c)}
                             className="w-full flex items-center justify-between gap-2 px-3 py-2 text-left hover:bg-purple-50 transition-colors border-b border-gray-50 last:border-b-0"
                           >
@@ -476,7 +483,7 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
                                   </p>
                                   <ul className="ml-3.5 font-medium">
                                     {addConflicts.map(x => (
-                                      <li key={x.sln}>{x.code} · {x.days} {x.time}</li>
+                                      <li key={courseKey(x)}>{x.code} · {x.days} {x.time}</li>
                                     ))}
                                   </ul>
                                 </div>
@@ -490,14 +497,14 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
                   </div>
                 )}
               </div>
-              <ScheduleGrid courses={savedCourses} conflictingSlns={conflictingSlns} onRemove={onRemove} />
+              <ScheduleGrid courses={savedCourses} conflictingKeys={conflictingKeys} onRemove={onRemove} />
             </div>
           ) : (
             savedCourses.map(c => {
-              const hasConflict = conflictingSlns.has(c.sln);
+              const hasConflict = conflictingKeys.has(courseKey(c));
               return (
                 <div
-                  key={c.sln}
+                  key={courseKey(c)}
                   className={`rounded-xl border p-4 transition-all group ${
                     hasConflict
                       ? 'bg-amber-50/60 border-amber-300 hover:border-amber-400'
@@ -530,7 +537,7 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
                       </div>
                     </div>
                     <button
-                      onClick={() => onRemove(c.sln)}
+                      onClick={() => onRemove(courseKey(c))}
                       className="text-gray-300 hover:text-red-500 transition-colors flex-shrink-0 p-1 rounded-lg hover:bg-red-50"
                       title="Remove from plan"
                     >
@@ -548,10 +555,12 @@ const CoursePlan: React.FC<CoursePlanProps> = ({ savedCourses, allCourses, onRem
           <div className="px-6 py-4 border-t border-gray-100 bg-gray-50 space-y-3">
             <p className="text-xs text-gray-500">
               Exports recurring weekly events for Spring 2026 (Mar 30 – Jun 5) in iCal format. Compatible with Google Calendar, Apple Calendar, and Outlook.
+              {unscheduledCount > 0 && ` ${unscheduledCount} course${unscheduledCount > 1 ? 's' : ''} without a set day/time will be left out.`}
             </p>
             <button
               onClick={() => downloadIcal(savedCourses)}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-white bg-gradient-to-r from-purple-800 to-indigo-900 hover:from-purple-700 hover:to-indigo-800 rounded-xl shadow-md transition-all hover:shadow-lg hover:-translate-y-0.5"
+              disabled={unscheduledCount === savedCourses.length}
+              className="w-full disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-white bg-gradient-to-r from-purple-800 to-indigo-900 hover:from-purple-700 hover:to-indigo-800 rounded-xl shadow-md transition-all hover:shadow-lg hover:-translate-y-0.5"
             >
               <Download className="w-4 h-4" />
               Export to Calendar (.ics)

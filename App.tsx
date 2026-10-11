@@ -6,6 +6,7 @@ import CoursePlan from './components/CoursePlan';
 import { Search, Filter, CalendarDays, GraduationCap, Mail, Layers, Vote, CalendarCheck } from 'lucide-react';
 import { DayFilter, Course, Review } from './types';
 import { supabase } from './supabaseClient';
+import { courseKey } from './utils/courseKey';
 
 import SpringPoll from './components/SpringPoll';
 
@@ -36,14 +37,16 @@ function App() {
     fetchData();
   }, []);
 
-  // Load plan from ?plan=sln1,sln2 URL param once courses are available
+  // Load plan from ?plan=key1,key2 URL param once courses are available (keys are SLNs, or cat-<slug> for catalog rows)
   useEffect(() => {
     if (urlPlanLoaded || courses.length === 0) return;
     const params = new URLSearchParams(window.location.search);
     const planParam = params.get('plan');
     if (planParam) {
-      const slns = new Set(planParam.split(',').filter(Boolean));
-      const fromUrl = courses.filter(c => slns.has(c.sln));
+      // Follow the link's order, not catalog order, so the sharer's plan order survives the round trip
+      const byKey = new Map(courses.map(c => [courseKey(c), c] as const));
+      const keys = new Set(planParam.split(',').filter(Boolean));
+      const fromUrl = [...keys].map(k => byKey.get(k)).filter((c): c is Course => c !== undefined);
       if (fromUrl.length > 0) {
         setSavedCourses(fromUrl);
         setIsPlanOpen(true);
@@ -58,20 +61,21 @@ function App() {
   }, [savedCourses]);
 
   const toggleSaveCourse = (course: Course) => {
+    const key = courseKey(course);
     setSavedCourses(prev =>
-      prev.some(c => c.sln === course.sln)
-        ? prev.filter(c => c.sln !== course.sln)
+      prev.some(c => courseKey(c) === key)
+        ? prev.filter(c => courseKey(c) !== key)
         : [...prev, course]
     );
   };
 
-  const removeSavedCourse = (sln: string) => {
-    setSavedCourses(prev => prev.filter(c => c.sln !== sln));
+  const removeSavedCourse = (key: string) => {
+    setSavedCourses(prev => prev.filter(c => courseKey(c) !== key));
   };
 
   // Swap in place so the plan keeps its order (remove + add would push the new section to the end)
-  const replaceSavedCourse = (oldSln: string, next: Course) => {
-    setSavedCourses(prev => prev.map(c => (c.sln === oldSln ? next : c)));
+  const replaceSavedCourse = (oldKey: string, next: Course) => {
+    setSavedCourses(prev => prev.map(c => (courseKey(c) === oldKey ? next : c)));
   };
 
   const fetchData = async () => {
@@ -346,7 +350,7 @@ function App() {
                 course={course}
                 reviews={reviews}
                 onReviewSubmitted={fetchData}
-                isSaved={savedCourses.some(c => c.sln === course.sln)}
+                isSaved={savedCourses.some(c => courseKey(c) === courseKey(course))}
                 onToggleSave={toggleSaveCourse}
                 savedCourses={savedCourses}
                 allCourses={courses}

@@ -1,4 +1,5 @@
 import { Course } from '../types';
+import { courseKey } from './courseKey';
 
 export function parseDaysArray(days: string): string[] {
   return days.split('/').map(d => d.trim()).filter(Boolean);
@@ -31,11 +32,12 @@ export function findConflictingCourses(candidate: Course, existing: Course[]): C
 // codes like FIN 579 reuse one code across unrelated courses) that would not conflict with
 // the rest of the plan once `course` is swapped out.
 export function findAlternateSections(course: Course, allCourses: Course[], plan: Course[]): Course[] {
-  const rest = plan.filter(c => c.sln !== course.sln);
-  const planSlns = new Set(plan.map(c => c.sln));
+  const key = courseKey(course);
+  const rest = plan.filter(c => courseKey(c) !== key);
+  const planKeys = new Set(plan.map(courseKey));
   return allCourses.filter(c =>
-    c.sln !== course.sln &&
-    !planSlns.has(c.sln) &&
+    courseKey(c) !== key &&
+    !planKeys.has(courseKey(c)) &&
     c.code === course.code &&
     c.title === course.title &&
     c.quarter === course.quarter &&
